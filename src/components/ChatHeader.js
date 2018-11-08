@@ -12,6 +12,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { activeChatShape } from '../shapes';
 
+import DeleteChatButton from './DeleteChatButton';
+
 const styles = () => ({
   flex: {
     flex: 1,
@@ -63,7 +65,13 @@ export class ChatHeader extends React.Component {
 
   render() {
     const {
-      classes, width, activeChat, isCreator, isChatMember, disabled,
+      classes,
+      width,
+      activeChat,
+      isCreator,
+      isChatMember,
+      disabled,
+      activeChatId,
     } = this.props;
     const { anchorElUser, anchorElChat } = this.state;
     return (
@@ -96,7 +104,7 @@ export class ChatHeader extends React.Component {
             >
               {' '}
               {isCreator ? (
-                <MenuItem onClick={this.onDeleteChat}>Delete</MenuItem>
+                <DeleteChatButton id={activeChatId} />
               ) : (
                 <MenuItem onClick={this.onLeaveChat}>Leave</MenuItem>
               )}

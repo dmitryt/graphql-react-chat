@@ -11,6 +11,7 @@ module.exports = {
     'import/no-named-as-default': 'off',
     'consistent-return': 'off',
     'no-debugger': 'off',
+    'react/prop-types': 'off',
     'react/forbid-prop-types': [0, { forbid: ['object'] }],
   },
 };

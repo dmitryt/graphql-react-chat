@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NotificationSystem from 'react-notification-system';
 import Button from 'material-ui/Button';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import { withStyles } from 'material-ui/styles';
 
-import SideBar, { CHATS_QUERY } from '../components/SideBar';
+import SideBar from '../components/SideBar';
 
 import ChatHeader from '../components/ChatHeader';
+import withCreateChat from '../hocs/withCreateChat';
 
 import ChatContent from '../components/ChatContent';
 import CreateChatForm from './forms/CreateChatForm';
@@ -17,6 +16,8 @@ import EditProfileForm from './forms/EditProfileForm';
 import MessageInput from '../components/MessageInput';
 import AddChatBtn from '../components/AddChatBtn';
 import { userShape, activeChatShape, chatShape, notificationShape } from '../shapes';
+
+const CreateChatFormWithMutation = withCreateChat(CreateChatForm);
 
 const sidebarWidth = 320;
 
@@ -30,16 +31,6 @@ const styles = () => ({
     width: '100%',
   },
 });
-
-const CREATE_CHAT_MUTATION = gql`
-  mutation CREATE_CHAT_MUTATION($title: String!) {
-    createChat(input: { title: $title }) {
-      _id
-      title
-      createdAt
-    }
-  }
-`;
 
 export class ChatPage extends React.Component {
   constructor(props) {
@@ -105,6 +96,7 @@ export class ChatPage extends React.Component {
 
   onChatSelect = (chatId) => {
     this.props.redirectToChat({ chatId });
+    this.setState({ chatId });
   };
 
   closeProfileDialog = () => {
@@ -123,30 +115,36 @@ export class ChatPage extends React.Component {
     this.setState({ isChatDialogOpened: true });
   };
 
-  putCreatedChatInAStore = (store, { data: { createChat } }) => {
-    const data = store.readQuery({ query: CHATS_QUERY, variables: { filter: '', type: 'all' } });
-    data.chats.push(createChat);
-    store.writeQuery({ query: CHATS_QUERY, variables: { filter: '', type: 'all' }, data });
-  };
-
   render() {
     const {
       classes,
+      logout,
       user,
       myChats,
+      deleteChat,
       joinChat,
+      leaveChat,
       activeChat,
       sendMessage,
       isChatMember,
+      redirectToChatsList,
       // isConnected,
     } = this.props;
-    const { isChatDialogOpened, isProfileDialogOpened, formData } = this.state;
+    const { isChatDialogOpened, isProfileDialogOpened, chatId } = this.state;
     const disabled = false;
     return (
       <div className={classes.root}>
         <ChatHeader
           width={`calc(100% - ${sidebarWidth}px)`}
+          activeChat={{}}
+          activeChatId={chatId}
+          logout={logout}
+          isCreator
+          isChatMember
           disabled={disabled}
+          deleteChat={deleteChat}
+          leaveChat={leaveChat}
+          redirectToChatsList={redirectToChatsList}
           openProfileDialog={this.openProfileDialog}
         />
         <SideBar
@@ -174,24 +172,11 @@ export class ChatPage extends React.Component {
           )}
         </ChatContent>
         <NotificationSystem ref={this._notificationSystem} />
-        <Mutation
-          mutation={CREATE_CHAT_MUTATION}
-          variables={formData}
-          update={this.putCreatedChatInAStore}
-        >
-          {createChat => (
-            <CreateChatForm
-              onSubmit={(data) => {
-                this.setState({ formData: data }, () => {
-                  this.closeChatDialog();
-                  createChat();
-                });
-              }}
-              open={isChatDialogOpened}
-              onClose={this.closeChatDialog}
-            />
-          )}
-        </Mutation>
+        <CreateChatFormWithMutation
+          onMutationSuccess={this.closeChatDialog}
+          open={isChatDialogOpened}
+          onClose={this.closeChatDialog}
+        />
         <EditProfileForm
           user={user}
           onSubmit={this.onEditProfile}
@@ -216,11 +201,15 @@ ChatPage.propTypes = {
   isChatMember: PropTypes.bool.isRequired,
   // isConnected: PropTypes.bool.isRequired,
 
+  logout: PropTypes.func,
   createChat: PropTypes.func,
   fetchAllChats: PropTypes.func,
   fetchMyChats: PropTypes.func,
   redirectToChat: PropTypes.func,
+  redirectToChatsList: PropTypes.func,
   joinChat: PropTypes.func,
+  leaveChat: PropTypes.func,
+  deleteChat: PropTypes.func,
   mountChat: PropTypes.func,
   unmountChat: PropTypes.func,
   setActiveChat: PropTypes.func,
@@ -234,11 +223,15 @@ ChatPage.defaultProps = {
   notification: null,
   user: null,
   activeChat: null,
+  logout: () => {},
   createChat: () => {},
   fetchAllChats: () => {},
   fetchMyChats: () => {},
   redirectToChat: () => {},
+  redirectToChatsList: () => {},
   joinChat: () => {},
+  leaveChat: () => {},
+  deleteChat: () => {},
   mountChat: () => {},
   unmountChat: () => {},
   setActiveChat: () => {},
