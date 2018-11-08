@@ -10,6 +10,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'import/no-named-as-default': 'off',
     'consistent-return': 'off',
+    'no-debugger': 'off',
     'react/forbid-prop-types': [0, { forbid: ['object'] }],
   },
 };
