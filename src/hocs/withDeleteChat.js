@@ -16,17 +16,18 @@ const withDeleteChat = Component =>
       if (!deleteChat) {
         return false;
       }
-      const { id } = this.props;
+      const { id, onMutationSuccess = () => {} } = this.props;
       const queryAttrs = { query: CHATS_QUERY, variables: { filter: '', type: 'all' } };
       const data = store.readQuery(queryAttrs);
       data.chats = data.chats.filter(({ _id }) => _id !== id);
       store.writeQuery({ ...queryAttrs, data });
+      onMutationSuccess();
     };
     render() {
       const { id } = this.props;
       return (
         <Mutation mutation={DELETE_CHAT_MUTATION} variables={{ id }} update={this.updateStore}>
-          {mutate => <Component {...this.props} mutate={mutate} />}
+          {(mutate, { loading }) => <Component {...this.props} mutate={mutate} loading={loading} />}
         </Mutation>
       );
     }

@@ -36,13 +36,13 @@ const validate = ({ title }) => {
 };
 
 export const CreateChatForm = ({
-  classes, open, onClose, mutate,
+  classes, open, onClose, mutate, loading,
 }) => (
   <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
     <Form
       onSubmit={mutate}
       validate={validate}
-      render={({ handleSubmit, submitting }) => (
+      render={({ handleSubmit }) => (
         <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
           <DialogTitle className={classes.title}>Create new chat</DialogTitle>
           <DialogContent className={classes.content}>
@@ -57,7 +57,7 @@ export const CreateChatForm = ({
               fullWidth
               required
             />
-            <Button color="primary" type="submit" disabled={submitting}>
+            <Button color="primary" type="submit" disabled={loading}>
               Create
             </Button>
           </DialogContent>

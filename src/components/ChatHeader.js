@@ -104,7 +104,7 @@ export class ChatHeader extends React.Component {
             >
               {' '}
               {isCreator ? (
-                <DeleteChatButton id={activeChatId} />
+                <DeleteChatButton id={activeChatId} onMutationSuccess={this.handleMenuClose} />
               ) : (
                 <MenuItem onClick={this.onLeaveChat}>Leave</MenuItem>
               )}

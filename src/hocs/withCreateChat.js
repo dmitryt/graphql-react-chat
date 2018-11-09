@@ -32,9 +32,10 @@ const withCreateChat = Component =>
       const { variables } = this.state;
       return (
         <Mutation mutation={CREATE_CHAT_MUTATION} variables={variables} update={this.updateStore}>
-          {mutate => (
+          {(mutate, { loading }) => (
             <Component
               {...this.props}
+              loading={loading}
               mutate={(data) => {
                 this.setState({ variables: data }, mutate);
               }}
