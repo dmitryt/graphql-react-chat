@@ -12,8 +12,6 @@ import NavBar from './NavBar';
 import SearchInput from './SearchInput';
 import ChatsList from './ChatsList';
 
-import { activeChatShape } from '../shapes';
-
 const styles = () => ({
   root: {
     position: 'relative',
@@ -51,6 +49,11 @@ export class SideBar extends React.Component {
     this.setState({ filter });
   };
 
+  onChatSelect = (id) => {
+    const { mutate } = this.props;
+    mutate({ variables: { id } });
+  };
+
   // getChats() {
   //   const { myChats } = this.props;
   //   const { chatsType, filter } = this.state;
@@ -59,8 +62,9 @@ export class SideBar extends React.Component {
 
   render() {
     const {
-      classes, width, onChatSelect, activeChat, disabled, children,
+      classes, width, disabled, children, data,
     } = this.props;
+    const { activeChat } = data;
     const { chatsType, filter } = this.state;
     return (
       <Drawer variant="permanent" style={{ width }} classes={{ paper: classes.root }}>
@@ -70,7 +74,7 @@ export class SideBar extends React.Component {
           {({ data: { chats = [] } }) => (
             <ChatsList
               chats={chats}
-              onSelect={onChatSelect}
+              onSelect={this.onChatSelect}
               activeChat={activeChat}
               disabled={disabled}
             />
@@ -87,15 +91,11 @@ SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
   children: PropTypes.object.isRequired,
-  activeChat: activeChatShape,
   width: PropTypes.number,
-  onChatSelect: PropTypes.func,
 };
 
 SideBar.defaultProps = {
-  activeChat: null,
   width: 300,
-  onChatSelect: () => {},
 };
 
 export default withStyles(styles)(SideBar);

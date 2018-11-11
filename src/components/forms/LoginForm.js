@@ -24,11 +24,11 @@ const validate = ({ username, password }) => {
   return errors;
 };
 
-export const LoginForm = ({ classes, onSubmit }) => (
+export const LoginForm = ({ classes, mutate, loading }) => (
   <Form
-    onSubmit={onSubmit}
+    onSubmit={mutate}
     validate={validate}
-    render={({ handleSubmit, submitting }) => (
+    render={({ handleSubmit }) => (
       <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
         <Field
           label="Username"
@@ -57,7 +57,7 @@ export const LoginForm = ({ classes, onSubmit }) => (
           variant="raised"
           color="primary"
           type="submit"
-          disabled={submitting}
+          disabled={loading}
           fullWidth
         >
           Login
@@ -69,11 +69,6 @@ export const LoginForm = ({ classes, onSubmit }) => (
 
 LoginForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func,
-};
-
-LoginForm.defaultProps = {
-  onSubmit: () => {},
 };
 
 export default withStyles(styles)(LoginForm);

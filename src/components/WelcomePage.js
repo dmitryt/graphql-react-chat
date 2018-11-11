@@ -12,7 +12,12 @@ import Typography from 'material-ui/Typography';
 
 import LoginForm from './forms/LoginForm';
 import SignupForm from './forms/SignupForm';
+import withLogin from '../hocs/withLogin';
+import withSignup from '../hocs/withSignup';
 import { notificationShape } from '../shapes';
+
+const LoginFormWithMutation = withLogin(LoginForm);
+const SignupFormWithMutation = withSignup(SignupForm);
 
 function TabContainer(props) {
   return (
@@ -57,9 +62,7 @@ export class WelcomePage extends React.Component {
   };
 
   render() {
-    const {
-      classes, login, signup, isAuthenticated,
-    } = this.props;
+    const { classes, isAuthenticated } = this.props;
     const { value } = this.state;
     if (isAuthenticated) {
       return <Redirect to="/chats" />;
@@ -88,12 +91,12 @@ export class WelcomePage extends React.Component {
           </AppBar>
           {value === 0 && (
             <TabContainer>
-              <LoginForm onSubmit={login} />
+              <LoginFormWithMutation />
             </TabContainer>
           )}
           {value === 1 && (
             <TabContainer>
-              <SignupForm onSubmit={signup} />
+              <SignupFormWithMutation />
             </TabContainer>
           )}
         </Paper>
@@ -107,14 +110,10 @@ WelcomePage.propTypes = {
   classes: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   notification: notificationShape,
-  login: PropTypes.func,
-  signup: PropTypes.func,
 };
 
 WelcomePage.defaultProps = {
   notification: null,
-  login: () => {},
-  signup: () => {},
 };
 
 export default withStyles(styles, { withTheme: true })(WelcomePage);

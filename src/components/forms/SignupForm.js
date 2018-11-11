@@ -27,13 +27,11 @@ const validate = ({ username, password, passwordConfirmation }) => {
   return errors;
 };
 
-const submitHandler = onSubmit => ({ username, password }) => onSubmit({ username, password });
-
-export const SignupForm = ({ classes, onSubmit }) => (
+export const SignupForm = ({ classes, mutate, loading }) => (
   <Form
-    onSubmit={submitHandler(onSubmit)}
+    onSubmit={mutate}
     validate={validate}
-    render={({ handleSubmit, submitting }) => (
+    render={({ handleSubmit }) => (
       <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
         <Field
           label="Username"
@@ -73,7 +71,7 @@ export const SignupForm = ({ classes, onSubmit }) => (
           variant="raised"
           color="primary"
           type="submit"
-          disabled={submitting}
+          disabled={loading}
           fullWidth
         >
           Sign Up
@@ -85,11 +83,6 @@ export const SignupForm = ({ classes, onSubmit }) => (
 
 SignupForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func,
-};
-
-SignupForm.defaultProps = {
-  onSubmit: () => {},
 };
 
 export default withStyles(styles)(SignupForm);

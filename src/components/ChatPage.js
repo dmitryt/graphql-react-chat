@@ -5,7 +5,7 @@ import Button from 'material-ui/Button';
 
 import { withStyles } from 'material-ui/styles';
 
-import SideBar from '../components/SideBar';
+import SideBar from '../containers/Sidebar';
 
 import ChatHeader from '../components/ChatHeader';
 import withCreateChat from '../hocs/withCreateChat';
@@ -15,7 +15,7 @@ import CreateChatForm from './forms/CreateChatForm';
 import EditProfileForm from './forms/EditProfileForm';
 import MessageInput from '../components/MessageInput';
 import AddChatBtn from '../components/AddChatBtn';
-import { userShape, activeChatShape, chatShape, notificationShape } from '../shapes';
+import { userShape, activeChatShape, notificationShape } from '../shapes';
 
 const CreateChatFormWithMutation = withCreateChat(CreateChatForm);
 
@@ -194,8 +194,6 @@ ChatPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.object.isRequired,
   }).isRequired,
-  // allChats: PropTypes.arrayOf(chatShape).isRequired,
-  myChats: PropTypes.arrayOf(chatShape).isRequired,
   notification: notificationShape,
   activeChat: activeChatShape,
   isChatMember: PropTypes.bool.isRequired,
