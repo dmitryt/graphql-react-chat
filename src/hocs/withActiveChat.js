@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
-import compose from 'lodash/fp/compose';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 const ACTIVE_CHAT_QUERY = gql`
   query {

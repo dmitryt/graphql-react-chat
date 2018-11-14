@@ -24,12 +24,15 @@ const validate = ({ username, password }) => {
   return errors;
 };
 
-export const LoginForm = ({ classes, mutate, loading }) => (
+export const LoginForm = ({
+  classes, toggleMutation, loading, error,
+}) => (
   <Form
-    onSubmit={mutate}
+    onSubmit={toggleMutation}
     validate={validate}
     render={({ handleSubmit }) => (
       <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
+        {error}
         <Field
           label="Username"
           placeholder="Type your username"
