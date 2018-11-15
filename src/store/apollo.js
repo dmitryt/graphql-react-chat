@@ -8,7 +8,7 @@ export default {
       // },
     },
     Mutation: {
-      selectChat(_, { id }, { cache }) {
+      setActiveChat(_, { id }, { cache }) {
         const data = { activeChatId: id, __typename: 'ActiveChat' };
         cache.writeData({ data });
       },

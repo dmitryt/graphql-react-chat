@@ -1,8 +1,9 @@
-import React from 'react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { compose, withState, lifecycle } from 'recompose';
+import { graphql } from 'react-apollo';
 
 import { CHATS_QUERY } from '../components/SideBar';
+import withMutation from './withMutation';
 
 export const CREATE_CHAT_MUTATION = gql`
   mutation CREATE_CHAT_MUTATION($title: String!) {
@@ -14,36 +15,29 @@ export const CREATE_CHAT_MUTATION = gql`
   }
 `;
 
-const withCreateChat = Component =>
-  class extends React.Component {
-    state = {};
-    updateStore = (store, { data: { createChat } }) => {
-      const { onMutationSuccess = () => {} } = this.props;
-      if (!createChat) {
-        return false;
+export default compose(
+  withState('isOpened', 'setIsOpened', ({ open }) => open),
+  lifecycle({
+    componentDidUpdate(prevProps) {
+      const { setIsOpened, open } = this.props;
+      if (prevProps.open !== open) {
+        setIsOpened(open);
       }
-      const queryAttrs = { query: CHATS_QUERY, variables: { filter: '', type: 'all' } };
-      const data = store.readQuery(queryAttrs);
-      data.chats.push(createChat);
-      store.writeQuery({ ...queryAttrs, data });
-      onMutationSuccess();
-    };
-    render() {
-      const { variables } = this.state;
-      return (
-        <Mutation mutation={CREATE_CHAT_MUTATION} variables={variables} update={this.updateStore}>
-          {(mutate, { loading }) => (
-            <Component
-              {...this.props}
-              loading={loading}
-              mutate={(data) => {
-                this.setState({ variables: data }, mutate);
-              }}
-            />
-          )}
-        </Mutation>
-      );
-    }
-  };
-
-export default withCreateChat;
+    },
+  }),
+  graphql(CREATE_CHAT_MUTATION, {
+    options: ({ setIsOpened }) => ({
+      update: (store, { data: { createChat } }) => {
+        if (!createChat) {
+          return false;
+        }
+        const queryAttrs = { query: CHATS_QUERY, variables: { filter: '', type: 'all' } };
+        const data = store.readQuery(queryAttrs);
+        data.chats.push(createChat);
+        store.writeQuery({ ...queryAttrs, data });
+        setIsOpened(false);
+      },
+    }),
+  }),
+  withMutation,
+);

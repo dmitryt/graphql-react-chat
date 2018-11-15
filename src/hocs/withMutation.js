@@ -6,7 +6,7 @@ export default compose(
   withHandlers({
     toggleMutation: ({ mutate, setLoading, setError }) => (variables) => {
       setLoading(true);
-      mutate({ variables })
+      return mutate({ variables })
         .then(() => {
           setError(null);
         })

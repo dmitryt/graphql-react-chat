@@ -3,8 +3,8 @@ import { MenuItem } from 'material-ui/Menu';
 
 import withDeleteChat from '../hocs/withDeleteChat';
 
-const DeleteChatButton = ({ mutate, loading }) => (
-  <MenuItem onClick={mutate} disabled={loading}>
+const DeleteChatButton = ({ toggleMutation, loading }) => (
+  <MenuItem onClick={toggleMutation} disabled={loading}>
     Delete
   </MenuItem>
 );

@@ -7,13 +7,13 @@ const ACTIVE_CHAT_QUERY = gql`
   }
 `;
 
-const SELECT_CHAT_MUTATION = gql`
+const SET_ACTIVE_CHAT_MUTATION = gql`
   mutation($id: ID!) {
-    selectChat(id: $id) @client
+    setActiveChat(id: $id) @client
   }
 `;
 
 export default compose(
   graphql(ACTIVE_CHAT_QUERY),
-  graphql(SELECT_CHAT_MUTATION),
+  graphql(SET_ACTIVE_CHAT_MUTATION),
 );

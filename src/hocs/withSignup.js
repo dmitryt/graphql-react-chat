@@ -14,12 +14,6 @@ export const SIGNUP_MUTATION = gql`
 `;
 
 export default compose(
-  graphql(SIGNUP_MUTATION, {
-    options: {
-      update: (_, { data: { signup } }) => {
-        console.log(signup);
-      },
-    },
-  }),
+  graphql(SIGNUP_MUTATION),
   withMutation,
 );

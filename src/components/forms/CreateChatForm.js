@@ -36,11 +36,11 @@ const validate = ({ title }) => {
 };
 
 export const CreateChatForm = ({
-  classes, open, onClose, mutate, loading,
+  classes, isOpened, onClose, toggleMutation, loading,
 }) => (
-  <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+  <Dialog open={isOpened} onClose={onClose} aria-labelledby="form-dialog-title">
     <Form
-      onSubmit={mutate}
+      onSubmit={toggleMutation}
       validate={validate}
       render={({ handleSubmit }) => (
         <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
@@ -69,7 +69,7 @@ export const CreateChatForm = ({
 
 CreateChatForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  open: PropTypes.bool.isRequired,
+  isOpened: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
 };
 
