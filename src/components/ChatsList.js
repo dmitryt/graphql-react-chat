@@ -28,11 +28,14 @@ export class ChatsList extends React.Component {
 
   render() {
     const {
-      classes, chats, activeChat, disabled,
+      classes, data, activeChat, disabled,
     } = this.props;
+    if (data.loading) {
+      return null;
+    }
     return (
       <List className={classes.root}>
-        {chats.map(d => (
+        {data.chats.map(d => (
           <ListItem
             key={d._id}
             data-id={d._id}
@@ -52,7 +55,6 @@ export class ChatsList extends React.Component {
 
 ChatsList.propTypes = {
   classes: PropTypes.object.isRequired,
-  chats: PropTypes.array.isRequired,
   disabled: PropTypes.bool.isRequired,
   activeChat: activeChatShape,
   onSelect: PropTypes.func,

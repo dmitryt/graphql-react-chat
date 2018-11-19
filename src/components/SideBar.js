@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
 import { withStyles } from 'material-ui/styles';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 
 import Divider from 'material-ui/Divider';
 
@@ -12,21 +11,15 @@ import NavBar from './NavBar';
 import SearchInput from './SearchInput';
 import ChatsList from './ChatsList';
 
+import withChats from '../hocs/withChats';
+
+const ChatsListWithData = withChats(ChatsList);
+
 const styles = () => ({
   root: {
     position: 'relative',
   },
 });
-
-export const CHATS_QUERY = gql`
-  query CHATS_QUERY($type: String!, $filter: String) {
-    chats(type: $type, filter: $filter) {
-      _id
-      title
-      createdAt
-    }
-  }
-`;
 
 const TIMEOUT = 300;
 
@@ -50,8 +43,8 @@ export class SideBar extends React.Component {
   };
 
   onChatSelect = (id) => {
-    const { mutate } = this.props;
-    mutate({ variables: { id } });
+    const { setActiveChatId } = this.props;
+    setActiveChatId({ variables: { id } });
   };
 
   // getChats() {
@@ -64,22 +57,18 @@ export class SideBar extends React.Component {
     const {
       classes, width, disabled, children, data,
     } = this.props;
-    const { activeChat } = data;
+    const activeChat = get(data, 'activeChat', null);
+    debugger;
     const { chatsType, filter } = this.state;
     return (
       <Drawer variant="permanent" style={{ width }} classes={{ paper: classes.root }}>
         <SearchInput onChange={this.onFilterChange} />
         <Divider />
-        <Query query={CHATS_QUERY} variables={{ type: chatsType, filter }}>
-          {({ data: { chats = [] } }) => (
-            <ChatsList
-              chats={chats}
-              onSelect={this.onChatSelect}
-              activeChat={activeChat}
-              disabled={disabled}
-            />
-          )}
-        </Query>
+        <ChatsListWithData
+          onSelect={this.onChatSelect}
+          activeChat={activeChat}
+          disabled={disabled}
+        />
         {children}
         <NavBar chatsType={chatsType} onChange={this.onTypeChange} />
       </Drawer>

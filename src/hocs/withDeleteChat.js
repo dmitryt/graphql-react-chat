@@ -1,30 +1,34 @@
-import gql from 'graphql-tag';
-import { compose } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
 
-import { CHATS_QUERY } from '../components/SideBar';
+import { CHATS_QUERY, DELETE_CHAT_MUTATION } from '../queries/chat';
 import withMutation from './withMutation';
-
-export const DELETE_CHAT_MUTATION = gql`
-  mutation DELETE_CHAT_MUTATION($id: ID!) {
-    deleteChat(id: $id)
-  }
-`;
+import withActiveChat from './withActiveChat';
 
 export default compose(
+  withActiveChat,
   graphql(DELETE_CHAT_MUTATION, {
-    options: {
+    options: props => ({
       update: (store, { data: { deleteChat } }) => {
         if (!deleteChat) {
           return false;
         }
-        const { id } = this.props;
-        const queryAttrs = { query: CHATS_QUERY, variables: { filter: '', type: 'all' } };
+        const {
+          setActiveChatId,
+          data: { activeChat },
+        } = props;
+        const queryAttrs = { query: CHATS_QUERY, variables: { type: null, filter: null } };
         const data = store.readQuery(queryAttrs);
-        data.chats = data.chats.filter(({ _id }) => _id !== id);
+        data.chats = data.chats.filter(({ _id }) => _id !== activeChat._id);
         store.writeQuery({ ...queryAttrs, data });
+        setActiveChatId({ variables: { id: null } });
       },
-    },
+    }),
   }),
   withMutation,
+  withHandlers({
+    toggleMutation: ({ toggleMutation, data: { activeChat } }) => () => {
+      toggleMutation({ id: activeChat._id });
+    },
+  }),
 );

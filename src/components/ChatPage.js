@@ -6,11 +6,11 @@ import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 
 import SideBar from '../containers/Sidebar';
+import ChatContent from '../containers/ChatContent';
 
 import ChatHeader from '../components/ChatHeader';
 import withCreateChat from '../hocs/withCreateChat';
 
-import ChatContent from '../components/ChatContent';
 import CreateChatForm from './forms/CreateChatForm';
 import EditProfileForm from './forms/EditProfileForm';
 import MessageInput from '../components/MessageInput';
@@ -152,11 +152,10 @@ export class ChatPage extends React.Component {
           onChatSelect={this.onChatSelect}
           disabled={disabled}
           myChats={myChats}
-          activeChat={activeChat}
         >
           <AddChatBtn onClick={this.openChatDialog} disabled={disabled} />
         </SideBar>
-        <ChatContent activeChat={activeChat} user={user} disabled={disabled}>
+        <ChatContent user={user} disabled={disabled}>
           {isChatMember ? (
             <MessageInput onSubmit={sendMessage} disabled={disabled} />
           ) : (

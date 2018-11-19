@@ -1,17 +1,15 @@
 export default {
   resolvers: {
-    Query: {
-      // activeChat(_, variables, { cache }) {
-      //   // const data = cache.read({ __typename: 'ActiveChat' });
-      //   // console.log(data);
-      //   return { some: 'data' };
-      // },
-    },
+    Query: {},
     Mutation: {
-      setActiveChat(_, { id }, { cache }) {
-        const data = { activeChatId: id, __typename: 'ActiveChat' };
+      setActiveChatId(_, { id }, { cache }) {
+        const data = { activeChatId: id };
         cache.writeData({ data });
+        return data;
       },
     },
+  },
+  defaults: {
+    activeChat: null,
   },
 };

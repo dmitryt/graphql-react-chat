@@ -36,9 +36,9 @@ const validate = ({ title }) => {
 };
 
 export const CreateChatForm = ({
-  classes, isOpened, onClose, toggleMutation, loading,
+  classes, open, onClose, toggleMutation, loading,
 }) => (
-  <Dialog open={isOpened} onClose={onClose} aria-labelledby="form-dialog-title">
+  <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
     <Form
       onSubmit={toggleMutation}
       validate={validate}
@@ -69,7 +69,7 @@ export const CreateChatForm = ({
 
 CreateChatForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  isOpened: PropTypes.bool.isRequired,
+  open: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
 };
 

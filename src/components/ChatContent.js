@@ -36,6 +36,7 @@ function prepareChatMessages(activeChat, user) {
   if (!activeChat) {
     return <InviteLabel />;
   }
+  debugger;
   return activeChat.messages.map((item) => {
     const Component = item.statusMessage ? UserAction : UserMessage;
     return (
