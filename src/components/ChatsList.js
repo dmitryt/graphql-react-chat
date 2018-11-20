@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withStyles } from 'material-ui/styles';
+import { Link } from 'react-router-dom';
 
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
@@ -17,6 +18,9 @@ const styles = theme => ({
   },
   selected: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
+  },
+  link: {
+    textDecoration: 'none',
   },
 });
 
@@ -36,17 +40,18 @@ export class ChatsList extends React.Component {
     return (
       <List className={classes.root}>
         {data.chats.map(d => (
-          <ListItem
-            key={d._id}
-            data-id={d._id}
-            className={classnames({ [classes.selected]: activeChat && activeChat._id === d._id })}
-            button
-            disabled={disabled}
-            onClick={this.onClick}
-          >
-            <Avatar style={{ backgroundColor: d.color }}>{titleInitials(d.title)}</Avatar>
-            <ListItemText primary={d.title} secondary={distanceInWords(d.createdAt)} />
-          </ListItem>
+          <Link className={classes.link} key={d._id} to={`/chats/${d._id}`}>
+            <ListItem
+              data-id={d._id}
+              className={classnames({ [classes.selected]: activeChat && activeChat._id === d._id })}
+              button
+              disabled={disabled}
+              onClick={this.onClick}
+            >
+              <Avatar style={{ backgroundColor: d.color }}>{titleInitials(d.title)}</Avatar>
+              <ListItemText primary={d.title} secondary={distanceInWords(d.createdAt)} />
+            </ListItem>
+          </Link>
         ))}
       </List>
     );

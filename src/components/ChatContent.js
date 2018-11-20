@@ -1,43 +1,43 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "material-ui/styles";
+import Paper from "material-ui/Paper";
 
-import UserMessage from './UserMessage';
-import UserAction from './UserAction';
-import InviteLabel from './InviteLabel';
+import UserMessage from "./UserMessage";
+import UserAction from "./UserAction";
+import InviteLabel from "./InviteLabel";
 
-import { userShape, activeChatShape } from '../shapes';
+import { userShape, activeChatShape } from "../shapes";
 
 const styles = theme => ({
   toolbar: theme.mixins.toolbar,
   bottomBox: {
     padding: theme.spacing.unit * 2,
     margin: theme.spacing.unit * 2,
-    position: 'absolute',
+    position: "absolute",
     width: `calc(100% - ${theme.spacing.unit * 4}px)`,
     bottom: 0,
-    boxSizing: 'border-box',
+    boxSizing: "border-box"
   },
   content: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-    backgroundColor: theme.palette.background.default,
+    position: "relative",
+    width: "100%",
+    height: "100%",
+    backgroundColor: theme.palette.background.default
   },
   messagesList: {
     padding: `${theme.spacing.unit}px 0 ${theme.spacing.unit * 12}px`,
     height: `calc(100% - ${theme.spacing.unit * 21}px)`,
-    overflow: 'auto',
-  },
+    overflow: "auto"
+  }
 });
 
 function prepareChatMessages(activeChat, user) {
   if (!activeChat) {
     return <InviteLabel />;
   }
-  debugger;
-  return activeChat.messages.map((item) => {
+  // debugger;
+  return activeChat.messages.map(item => {
     const Component = item.statusMessage ? UserAction : UserMessage;
     return (
       <Component
@@ -74,9 +74,7 @@ export class ChatContent extends React.Component {
     }
   }
   render() {
-    const {
-      classes, activeChat, user, children,
-    } = this.props;
+    const { classes, activeChat, user, children } = this.props;
     return (
       <main className={classes.content}>
         <div className={classes.toolbar} />
@@ -97,12 +95,12 @@ ChatContent.propTypes = {
   classes: PropTypes.object.isRequired,
   activeChat: activeChatShape,
   user: userShape,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired
 };
 
 ChatContent.defaultProps = {
   activeChat: null,
-  user: null,
+  user: null
 };
 
 export default withStyles(styles)(ChatContent);

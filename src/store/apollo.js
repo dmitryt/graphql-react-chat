@@ -1,13 +1,7 @@
 export default {
   resolvers: {
     Query: {},
-    Mutation: {
-      setActiveChatId(_, { id }, { cache }) {
-        const data = { activeChatId: id };
-        cache.writeData({ data });
-        return data;
-      },
-    },
+    Mutation: {},
   },
   defaults: {
     activeChat: null,

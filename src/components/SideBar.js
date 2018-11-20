@@ -42,11 +42,6 @@ export class SideBar extends React.Component {
     this.setState({ filter });
   };
 
-  onChatSelect = (id) => {
-    const { setActiveChatId } = this.props;
-    setActiveChatId({ variables: { id } });
-  };
-
   // getChats() {
   //   const { myChats } = this.props;
   //   const { chatsType, filter } = this.state;
@@ -58,7 +53,7 @@ export class SideBar extends React.Component {
       classes, width, disabled, children, data,
     } = this.props;
     const activeChat = get(data, 'activeChat', null);
-    debugger;
+    // debugger;
     const { chatsType, filter } = this.state;
     return (
       <Drawer variant="permanent" style={{ width }} classes={{ paper: classes.root }}>

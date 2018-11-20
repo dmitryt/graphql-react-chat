@@ -136,7 +136,6 @@ export class ChatPage extends React.Component {
       <div className={classes.root}>
         <ChatHeader
           width={`calc(100% - ${sidebarWidth}px)`}
-          activeChat={{}}
           activeChatId={chatId}
           logout={logout}
           isCreator

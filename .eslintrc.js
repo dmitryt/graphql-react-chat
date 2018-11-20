@@ -15,5 +15,12 @@ module.exports = {
     'no-unused-vars': 'warn',
     'object-curly-newline': 'warn',
     'react/forbid-prop-types': [0, { forbid: ['object'] }],
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['to'],
+      },
+    ],
   },
 };

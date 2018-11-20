@@ -1,11 +1,5 @@
 import gql from 'graphql-tag';
 
-export const SET_ACTIVE_CHAT_ID_MUTATION = gql`
-  mutation($id: ID!) {
-    setActiveChatId(id: $id) @client
-  }
-`;
-
 export const GET_ACTIVE_CHAT_QUERY = gql`
   query GET_ACTIVE_CHAT_QUERY {
     activeChat @client

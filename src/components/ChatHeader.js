@@ -73,7 +73,7 @@ export class ChatHeader extends React.Component {
       disabled,
       activeChatId,
     } = this.props;
-    debugger;
+    // debugger;
     const { anchorElUser, anchorElChat } = this.state;
     return (
       <MUIAppBar position="absolute" style={{ width }}>
