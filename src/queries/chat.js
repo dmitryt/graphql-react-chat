@@ -33,6 +33,9 @@ export const ACTIVE_CHAT_QUERY = gql`
       ...BaseChat
       messages {
         content
+        sender {
+          username
+        }
       }
     }
   }

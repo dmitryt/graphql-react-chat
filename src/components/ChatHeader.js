@@ -10,7 +10,6 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { activeChatShape } from '../shapes';
 
 import DeleteChatButton from './DeleteChatButton';
 
@@ -67,13 +66,11 @@ export class ChatHeader extends React.Component {
     const {
       classes,
       width,
-      activeChat,
-      isCreator,
-      isChatMember,
+      data: { chat: activeChat },
+      isCreator = true,
+      isChatMember = true,
       disabled,
-      activeChatId,
     } = this.props;
-    // debugger;
     const { anchorElUser, anchorElChat } = this.state;
     return (
       <MUIAppBar position="absolute" style={{ width }}>
@@ -105,7 +102,10 @@ export class ChatHeader extends React.Component {
             >
               {' '}
               {isCreator ? (
-                <DeleteChatButton id={activeChatId} onMutationSuccess={this.handleMenuClose} />
+                <DeleteChatButton
+                  id={activeChat && activeChat._id}
+                  onMutationSuccess={this.handleMenuClose}
+                />
               ) : (
                 <MenuItem onClick={this.onLeaveChat}>Leave</MenuItem>
               )}
@@ -143,7 +143,6 @@ ChatHeader.propTypes = {
   isCreator: PropTypes.bool.isRequired,
   isChatMember: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
-  activeChat: activeChatShape,
   width: PropTypes.string,
 
   logout: PropTypes.func,
@@ -155,7 +154,6 @@ ChatHeader.propTypes = {
 
 ChatHeader.defaultProps = {
   width: '300px',
-  activeChat: null,
   logout: () => {},
   deleteChat: () => {},
   openProfileDialog: () => {},

@@ -1,13 +1,14 @@
 import gql from 'graphql-tag';
 
-export const MESSAGES_QUERY = gql`
-  query MESSAGES_QUERY($chatId: ID!) {
-    messages(chatId: $chatId) {
+export const ADD_MESSAGE_MUTATION = gql`
+  mutation ADD_MESSAGE_MUTATION($input: NewMessage!) {
+    addMessage(input: $input) {
       _id
       content
       sender {
         _id
-        name
+        username
+        chatId
       }
     }
   }

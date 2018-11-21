@@ -7,9 +7,10 @@ import { withStyles } from 'material-ui/styles';
 
 import SideBar from '../containers/Sidebar';
 import ChatContent from '../containers/ChatContent';
+import ChatHeader from '../containers/ChatHeader';
 
-import ChatHeader from '../components/ChatHeader';
 import withCreateChat from '../hocs/withCreateChat';
+import withAddMessage from '../hocs/withAddMessage';
 
 import CreateChatForm from './forms/CreateChatForm';
 import EditProfileForm from './forms/EditProfileForm';
@@ -18,6 +19,7 @@ import AddChatBtn from '../components/AddChatBtn';
 import { userShape, activeChatShape, notificationShape } from '../shapes';
 
 const CreateChatFormWithMutation = withCreateChat(CreateChatForm);
+const MessageInputWithHandler = withAddMessage(MessageInput);
 
 const sidebarWidth = 320;
 
@@ -44,16 +46,10 @@ export class ChatPage extends React.Component {
   };
 
   componentDidMount() {
-    const {
-      fetchAllChats, fetchMyChats, match, setActiveChat, initWsConnection,
-    } = this.props;
-    const { chatId } = match.params;
+    const { fetchAllChats, fetchMyChats, initWsConnection } = this.props;
     initWsConnection();
     fetchAllChats();
     fetchMyChats();
-    if (chatId) {
-      setActiveChat({ chatId });
-    }
   }
 
   componentDidUpdate(prevProps) {
@@ -124,9 +120,8 @@ export class ChatPage extends React.Component {
       deleteChat,
       joinChat,
       leaveChat,
-      activeChat,
       sendMessage,
-      isChatMember,
+      isChatMember = true,
       redirectToChatsList,
       // isConnected,
     } = this.props;
@@ -156,7 +151,7 @@ export class ChatPage extends React.Component {
         </SideBar>
         <ChatContent user={user} disabled={disabled}>
           {isChatMember ? (
-            <MessageInput onSubmit={sendMessage} disabled={disabled} />
+            <MessageInputWithHandler disabled={disabled} />
           ) : (
             <Button
               variant="raised"

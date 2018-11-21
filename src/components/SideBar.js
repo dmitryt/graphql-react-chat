@@ -50,9 +50,12 @@ export class SideBar extends React.Component {
 
   render() {
     const {
-      classes, width, disabled, children, data,
+      classes,
+      width,
+      disabled,
+      children,
+      data: { chat: activeChat },
     } = this.props;
-    const activeChat = get(data, 'activeChat', null);
     // debugger;
     const { chatsType, filter } = this.state;
     return (

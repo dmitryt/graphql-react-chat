@@ -10,7 +10,7 @@ export class MessageInput extends React.Component {
   onKeyUp = ({ target, key }) => {
     const { value } = target;
     if (value && key === 'Enter') {
-      this.props.onSubmit(value);
+      this.props.toggleMutation(value);
       this.setState({ value: '' });
     }
   };
@@ -42,11 +42,11 @@ export class MessageInput extends React.Component {
 
 MessageInput.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func,
+  toggleMutation: PropTypes.func,
 };
 
 MessageInput.defaultProps = {
-  onSubmit: () => {},
+  toggleMutation: () => {},
 };
 
 export default MessageInput;
