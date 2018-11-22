@@ -6,7 +6,7 @@ import ApolloClient from 'apollo-boost';
 
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import clientState from './store/apollo';
+import clientState from './store';
 import { API_GQL_HOST, STORAGE_KEY_TOKEN } from './config';
 
 import './index.css';

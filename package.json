@@ -12,7 +12,6 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "final-form": "^4.6.1",
     "graphql": "^14.0.2",
-    "graphql-tag": "^2.10.0",
     "history": "^4.7.2",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.11",
@@ -46,8 +45,7 @@
     "eject": "react-app-rewired eject",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier-eslint --write 'src/**/*.{js,json}'",
-    "precommit": "lint-staged"
+    "format": "prettier-eslint --write 'src/**/*.{js,json}'"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

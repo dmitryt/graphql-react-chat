@@ -1,17 +1,6 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-boost';
 
-export const BASE_MESSAGE_FRAGMENT = gql`
-  fragment BaseMessage on Message {
-    _id
-    content
-    createdAt
-    chatId
-    sender {
-      _id
-      username
-    }
-  }
-`;
+import { BASE_MESSAGE_FRAGMENT } from './fragments';
 
 export const ADD_MESSAGE_MUTATION = gql`
   mutation ADD_MESSAGE_MUTATION($input: NewMessage!) {

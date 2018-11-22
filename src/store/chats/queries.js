@@ -1,24 +1,7 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-boost';
 
-import { BASE_MESSAGE_FRAGMENT } from './message';
-
-export const GET_ACTIVE_CHAT_QUERY = gql`
-  query GET_ACTIVE_CHAT_QUERY {
-    activeChat @client
-  }
-`;
-
-const BASE_CHAT_FRAGMENT = gql`
-  fragment BaseChat on Chat {
-    _id
-    title
-    createdAt
-    updatedAt
-    members {
-      _id
-    }
-  }
-`;
+import { BASE_CHAT_FRAGMENT } from './fragments';
+import { BASE_MESSAGE_FRAGMENT } from '../messages/fragments';
 
 export const CHATS_QUERY = gql`
   query CHATS_QUERY($type: String, $filter: String) {
@@ -45,15 +28,10 @@ export const ACTIVE_CHAT_QUERY = gql`
 export const CREATE_CHAT_MUTATION = gql`
   mutation CREATE_CHAT_MUTATION($title: String!) {
     createChat(input: { title: $title }) {
-      _id
-      title
-      createdAt
-      updatedAt
-      members {
-        _id
-      }
+      ...BaseChat
     }
   }
+  ${BASE_CHAT_FRAGMENT}
 `;
 
 export const DELETE_CHAT_MUTATION = gql`
