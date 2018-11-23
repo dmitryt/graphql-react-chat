@@ -3,17 +3,12 @@ import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
 import { withStyles } from 'material-ui/styles';
 import debounce from 'lodash/debounce';
-import get from 'lodash/get';
 
 import Divider from 'material-ui/Divider';
 
 import NavBar from './NavBar';
 import SearchInput from './SearchInput';
-import ChatsList from './ChatsList';
-
-import withChats from '../hocs/withChats';
-
-const ChatsListWithData = withChats(ChatsList);
+import ChatsList from '../containers/ChatsList';
 
 const styles = () => ({
   root: {
@@ -50,11 +45,7 @@ export class SideBar extends React.Component {
 
   render() {
     const {
-      classes,
-      width,
-      disabled,
-      children,
-      data: { chat: activeChat },
+      classes, width, disabled, children,
     } = this.props;
     // debugger;
     const { chatsType, filter } = this.state;
@@ -62,11 +53,7 @@ export class SideBar extends React.Component {
       <Drawer variant="permanent" style={{ width }} classes={{ paper: classes.root }}>
         <SearchInput onChange={this.onFilterChange} />
         <Divider />
-        <ChatsListWithData
-          onSelect={this.onChatSelect}
-          activeChat={activeChat}
-          disabled={disabled}
-        />
+        <ChatsList onSelect={this.onChatSelect} disabled={disabled} />
         {children}
         <NavBar chatsType={chatsType} onChange={this.onTypeChange} />
       </Drawer>

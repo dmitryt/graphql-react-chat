@@ -1,20 +1,12 @@
-import { graphql, compose } from 'apollo-boost';
+import { compose } from 'react-apollo';
 
-import { CHATS_QUERY } from './queries';
+import { prepareQuery, prepareMutation } from '../utils';
 
-const store = {
-  defaults: {},
-  mutations,
-  queries,
-};
+import { CHATS_QUERY, CREATE_CHAT_MUTATION, DELETE_CHAT_MUTATION } from './queries';
+import { createChatConfig, deleteChatConfig } from './configs';
 
-const withChats = compose(
-  graphql(CHATS_QUERY, notesQueryHandler),
-  graphql(updateNoteQuery, { name: 'updateNoteMutation' }),
-  graphql(clearNoteQuery, { name: 'clearNoteMutation' }),
+export const withChats = compose(
+  prepareQuery(CHATS_QUERY, 'chats'),
+  prepareMutation(CREATE_CHAT_MUTATION, 'createChatMutation', createChatConfig),
+  prepareMutation(DELETE_CHAT_MUTATION, 'deleteChatMutation', deleteChatConfig),
 );
-
-export default {
-  store,
-  withChats,
-};

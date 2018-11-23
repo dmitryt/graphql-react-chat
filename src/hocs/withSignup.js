@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-boost';
 import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
 

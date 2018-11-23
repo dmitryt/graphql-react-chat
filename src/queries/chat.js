@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-boost';
 
 import { BASE_MESSAGE_FRAGMENT } from './message';
 

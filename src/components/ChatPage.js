@@ -5,20 +5,18 @@ import Button from 'material-ui/Button';
 
 import { withStyles } from 'material-ui/styles';
 
-import SideBar from '../containers/Sidebar';
 import ChatContent from '../containers/ChatContent';
 import ChatHeader from '../containers/ChatHeader';
+import CreateChatForm from '../containers/CreateChatForm';
 
-import withCreateChat from '../hocs/withCreateChat';
 import withAddMessage from '../hocs/withAddMessage';
 
-import CreateChatForm from './forms/CreateChatForm';
 import EditProfileForm from './forms/EditProfileForm';
+import SideBar from '../components/SideBar';
 import MessageInput from '../components/MessageInput';
 import AddChatBtn from '../components/AddChatBtn';
 import { userShape, activeChatShape, notificationShape } from '../shapes';
 
-const CreateChatFormWithMutation = withCreateChat(CreateChatForm);
 const MessageInputWithHandler = withAddMessage(MessageInput);
 
 const sidebarWidth = 320;
@@ -165,7 +163,7 @@ export class ChatPage extends React.Component {
           )}
         </ChatContent>
         <NotificationSystem ref={this._notificationSystem} />
-        <CreateChatFormWithMutation
+        <CreateChatForm
           onMutationSuccess={this.closeChatDialog}
           open={isChatDialogOpened}
           onClose={this.closeChatDialog}

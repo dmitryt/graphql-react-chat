@@ -36,11 +36,11 @@ const validate = ({ title }) => {
 };
 
 export const CreateChatForm = ({
-  classes, open, onClose, toggleMutation, loading,
+  classes, open, onClose, createChatMutation, loading,
 }) => (
   <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
     <Form
-      onSubmit={toggleMutation}
+      onSubmit={createChatMutation}
       validate={validate}
       render={({ handleSubmit }) => (
         <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">

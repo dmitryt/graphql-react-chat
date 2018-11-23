@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
+import get from 'lodash/get';
 
 import UserMessage from './UserMessage';
 import UserAction from './UserAction';
@@ -36,7 +37,6 @@ function prepareChatMessages(activeChat, user) {
   if (!activeChat) {
     return <InviteLabel />;
   }
-  // debugger;
   return activeChat.messages.map((item) => {
     const Component = item.statusMessage ? UserAction : UserMessage;
     return (
@@ -74,12 +74,8 @@ export class ChatContent extends React.Component {
     }
   }
   render() {
-    const {
-      classes,
-      data: { chat: activeChat },
-      user,
-      children,
-    } = this.props;
+    const { classes, user, children } = this.props;
+    const activeChat = get(this.props, 'activeChat.data');
     return (
       <main className={classes.content}>
         <div className={classes.toolbar} />

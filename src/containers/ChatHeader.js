@@ -1,4 +1,4 @@
-import withActiveChat from '../hocs/withActiveChat';
+import { withActiveChat } from '../store/activeChat';
 
 import ChatHeader from '../components/ChatHeader';
 

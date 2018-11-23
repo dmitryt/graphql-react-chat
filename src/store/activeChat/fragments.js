@@ -12,5 +12,3 @@ export const BASE_MESSAGE_FRAGMENT = gql`
     }
   }
 `;
-
-export default {};

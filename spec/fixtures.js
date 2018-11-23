@@ -11,5 +11,3 @@ export const getUser = (args = {}) => ({
   username: 'jojn',
   ...args,
 });
-
-export default {};

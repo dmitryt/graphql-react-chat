@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import get from 'lodash/get';
 import { withStyles } from 'material-ui/styles';
 import { Link } from 'react-router-dom';
 
@@ -31,15 +32,14 @@ export class ChatsList extends React.Component {
   };
 
   render() {
-    const {
-      classes, data, activeChat, disabled,
-    } = this.props;
-    if (data.loading) {
+    const { classes, chats, disabled } = this.props;
+    const activeChat = get(this.props, 'activeChat.data');
+    if (chats.loading) {
       return null;
     }
     return (
       <List className={classes.root}>
-        {data.chats.map(d => (
+        {chats.data.map(d => (
           <Link className={classes.link} key={d._id} to={`/chats/${d._id}`}>
             <ListItem
               data-id={d._id}
@@ -61,12 +61,10 @@ export class ChatsList extends React.Component {
 ChatsList.propTypes = {
   classes: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
-  activeChat: activeChatShape,
   onSelect: PropTypes.func,
 };
 
 ChatsList.defaultProps = {
-  activeChat: null,
   onSelect: () => {},
 };
 

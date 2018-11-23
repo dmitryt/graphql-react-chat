@@ -11,5 +11,3 @@ export const BASE_CHAT_FRAGMENT = gql`
     }
   }
 `;
-
-export default {};

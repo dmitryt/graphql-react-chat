@@ -5,5 +5,3 @@ export const omitProps = compose(
   mapProps,
   omit,
 );
-
-export default {};

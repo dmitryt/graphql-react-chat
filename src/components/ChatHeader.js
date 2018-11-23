@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import get from 'lodash/get';
 
 import Toolbar from 'material-ui/Toolbar';
 import MUIAppBar from 'material-ui/AppBar';
@@ -66,7 +67,7 @@ export class ChatHeader extends React.Component {
     const {
       classes,
       width,
-      data: { chat: activeChat },
+      activeChat,
       isCreator = true,
       isChatMember = true,
       disabled,
@@ -78,7 +79,7 @@ export class ChatHeader extends React.Component {
           <Typography variant="title" color="inherit" className={classes.flex}>
             {activeChat ? (
               <React.Fragment>
-                <span className="chat-title">{activeChat.title}</span>
+                <span className="chat-title">{get(activeChat, 'data.title')}</span>
                 {isChatMember ? (
                   <IconButton
                     className={classes.menuIcon}
@@ -103,7 +104,7 @@ export class ChatHeader extends React.Component {
               {' '}
               {isCreator ? (
                 <DeleteChatButton
-                  id={activeChat && activeChat._id}
+                  id={get(activeChat, 'data._id')}
                   onMutationSuccess={this.handleMenuClose}
                 />
               ) : (

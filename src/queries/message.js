@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-boost';
 
 export const BASE_MESSAGE_FRAGMENT = gql`
   fragment BaseMessage on Message {
@@ -21,5 +21,3 @@ export const ADD_MESSAGE_MUTATION = gql`
   }
   ${BASE_MESSAGE_FRAGMENT}
 `;
-
-export default {};
