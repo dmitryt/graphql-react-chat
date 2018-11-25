@@ -1,4 +1,4 @@
-import { withUser } from '../store/auth';
+import { withUser } from '../store/user';
 
 import SignupForm from '../components/forms/SignupForm';
 
