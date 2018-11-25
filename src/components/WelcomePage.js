@@ -10,14 +10,9 @@ import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
 
-import LoginForm from './forms/LoginForm';
-import SignupForm from './forms/SignupForm';
-import withLogin from '../hocs/withLogin';
-import withSignup from '../hocs/withSignup';
+import LoginForm from '../containers/LoginForm';
+import SignupForm from '../containers/SignupForm';
 import { notificationShape } from '../shapes';
-
-const LoginFormWithMutation = withLogin(LoginForm);
-const SignupFormWithMutation = withSignup(SignupForm);
 
 function TabContainer(props) {
   return (
@@ -91,12 +86,12 @@ export class WelcomePage extends React.Component {
           </AppBar>
           {value === 0 && (
             <TabContainer>
-              <LoginFormWithMutation />
+              <LoginForm />
             </TabContainer>
           )}
           {value === 1 && (
             <TabContainer>
-              <SignupFormWithMutation />
+              <SignupForm />
             </TabContainer>
           )}
         </Paper>

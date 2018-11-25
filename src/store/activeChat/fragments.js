@@ -1,5 +1,7 @@
 import { gql } from 'apollo-boost';
 
+import { BASE_CHAT_FRAGMENT } from '../chats/fragments';
+
 export const BASE_MESSAGE_FRAGMENT = gql`
   fragment BaseMessage on Message {
     _id
@@ -11,4 +13,17 @@ export const BASE_MESSAGE_FRAGMENT = gql`
       username
     }
   }
+`;
+
+export const ACTIVE_CHAT_FRAGMENT = gql`
+  fragment ActiveChat on Chat {
+    ...BaseChat
+    isChatMember
+    isChatCreator
+    messages {
+      ...BaseMessage
+    }
+  }
+  ${BASE_CHAT_FRAGMENT}
+  ${BASE_MESSAGE_FRAGMENT}
 `;

@@ -12,7 +12,8 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import DeleteChatButton from './DeleteChatButton';
+import DeleteChatButton from '../containers/DeleteChatButton';
+import LeaveChatButton from '../containers/LeaveChatButton';
 
 const styles = () => ({
   flex: {
@@ -59,19 +60,18 @@ export class ChatHeader extends React.Component {
   };
 
   handleMenuClose = () => {
-    this.setState({ anchorElUser: null });
-    this.setState({ anchorElChat: null });
+    this.setState({
+      anchorElUser: null,
+      anchorElChat: null,
+    });
   };
 
   render() {
     const {
-      classes,
-      width,
-      activeChat,
-      isCreator = true,
-      isChatMember = true,
-      disabled,
+      classes, width, activeChat, disabled,
     } = this.props;
+    const isChatCreator = get(activeChat, 'data.isChatCreator');
+    const isChatMember = get(activeChat, 'data.isChatMember');
     const { anchorElUser, anchorElChat } = this.state;
     return (
       <MUIAppBar position="absolute" style={{ width }}>
@@ -102,13 +102,18 @@ export class ChatHeader extends React.Component {
               onClose={this.handleMenuClose}
             >
               {' '}
-              {isCreator ? (
+              {isChatCreator ? (
                 <DeleteChatButton
-                  id={get(activeChat, 'data._id')}
+                  title="Delete"
+                  chatId={get(activeChat, 'data._id')}
                   onMutationSuccess={this.handleMenuClose}
                 />
               ) : (
-                <MenuItem onClick={this.onLeaveChat}>Leave</MenuItem>
+                <LeaveChatButton
+                  title="Leave"
+                  chatId={get(activeChat, 'data._id')}
+                  onMutationSuccess={this.handleMenuClose}
+                />
               )}
             </Menu>
           </Typography>
@@ -141,8 +146,6 @@ export class ChatHeader extends React.Component {
 
 ChatHeader.propTypes = {
   classes: PropTypes.object.isRequired,
-  isCreator: PropTypes.bool.isRequired,
-  isChatMember: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
   width: PropTypes.string,
 

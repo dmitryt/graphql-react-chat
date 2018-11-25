@@ -1,8 +1,4 @@
 import { gql } from 'apollo-boost';
-import { compose } from 'recompose';
-import { graphql } from 'react-apollo';
-
-import withMutation from './withMutation';
 
 export const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($username: String!, $password: String!) {
@@ -12,8 +8,3 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `;
-
-export default compose(
-  graphql(SIGNUP_MUTATION),
-  withMutation,
-);

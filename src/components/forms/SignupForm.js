@@ -28,10 +28,10 @@ const validate = ({ username, password, passwordConfirmation }) => {
 };
 
 export const SignupForm = ({
-  classes, toggleMutation, loading, error,
+  classes, signupMutation, loading, error,
 }) => (
   <Form
-    onSubmit={toggleMutation}
+    onSubmit={signupMutation}
     validate={validate}
     render={({ handleSubmit }) => (
       <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">

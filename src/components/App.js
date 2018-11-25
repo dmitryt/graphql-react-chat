@@ -1,9 +1,8 @@
 import React from 'react';
 import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
 
-import ChatPage from './ChatPage';
 import PrivateRoute from './PrivateRoute';
-import { WelcomePage } from '../containers';
+import { WelcomePage, ChatPage } from '../containers';
 
 export const App = () => (
   <BrowserRouter>

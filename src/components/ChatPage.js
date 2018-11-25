@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NotificationSystem from 'react-notification-system';
-import Button from 'material-ui/Button';
+import get from 'lodash/get';
 
 import { withStyles } from 'material-ui/styles';
 
 import ChatContent from '../containers/ChatContent';
 import ChatHeader from '../containers/ChatHeader';
 import CreateChatForm from '../containers/CreateChatForm';
-
-import withAddMessage from '../hocs/withAddMessage';
+import JoinChatButton from '../containers/JoinChatButton';
 
 import EditProfileForm from './forms/EditProfileForm';
 import SideBar from '../components/SideBar';
@@ -17,7 +16,7 @@ import MessageInput from '../components/MessageInput';
 import AddChatBtn from '../components/AddChatBtn';
 import { userShape, activeChatShape, notificationShape } from '../shapes';
 
-const MessageInputWithHandler = withAddMessage(MessageInput);
+const MessageInputWithHandler = MessageInput;
 
 const sidebarWidth = 320;
 
@@ -90,7 +89,6 @@ export class ChatPage extends React.Component {
 
   onChatSelect = (chatId) => {
     this.props.redirectToChat({ chatId });
-    this.setState({ chatId });
   };
 
   closeProfileDialog = () => {
@@ -118,21 +116,19 @@ export class ChatPage extends React.Component {
       deleteChat,
       joinChat,
       leaveChat,
+      activeChat,
       sendMessage,
-      isChatMember = true,
       redirectToChatsList,
       // isConnected,
     } = this.props;
-    const { isChatDialogOpened, isProfileDialogOpened, chatId } = this.state;
+    const { isChatDialogOpened, isProfileDialogOpened } = this.state;
     const disabled = false;
+    const isChatMember = get(activeChat, 'data.isChatMember');
     return (
       <div className={classes.root}>
         <ChatHeader
           width={`calc(100% - ${sidebarWidth}px)`}
-          activeChatId={chatId}
           logout={logout}
-          isCreator
-          isChatMember
           disabled={disabled}
           deleteChat={deleteChat}
           leaveChat={leaveChat}
@@ -151,15 +147,7 @@ export class ChatPage extends React.Component {
           {isChatMember ? (
             <MessageInputWithHandler disabled={disabled} />
           ) : (
-            <Button
-              variant="raised"
-              color="primary"
-              onClick={joinChat}
-              disabled={disabled}
-              fullWidth
-            >
-              Join Chat
-            </Button>
+            <JoinChatButton title="Join Chat" chatId={get(activeChat, 'data._id')} />
           )}
         </ChatContent>
         <NotificationSystem ref={this._notificationSystem} />
@@ -186,8 +174,7 @@ ChatPage.propTypes = {
     params: PropTypes.object.isRequired,
   }).isRequired,
   notification: notificationShape,
-  activeChat: activeChatShape,
-  isChatMember: PropTypes.bool.isRequired,
+  // activeChat: activeChatShape,
   // isConnected: PropTypes.bool.isRequired,
 
   logout: PropTypes.func,
@@ -211,7 +198,6 @@ ChatPage.propTypes = {
 ChatPage.defaultProps = {
   notification: null,
   user: null,
-  activeChat: null,
   logout: () => {},
   createChat: () => {},
   fetchAllChats: () => {},

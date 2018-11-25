@@ -25,10 +25,10 @@ const validate = ({ username, password }) => {
 };
 
 export const LoginForm = ({
-  classes, toggleMutation, loading, error,
+  classes, loginMutation, loading, error,
 }) => (
   <Form
-    onSubmit={toggleMutation}
+    onSubmit={loginMutation}
     validate={validate}
     render={({ handleSubmit }) => (
       <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
