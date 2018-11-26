@@ -47,7 +47,6 @@ export class SideBar extends React.Component {
     const {
       classes, width, disabled, children,
     } = this.props;
-    // debugger;
     const { chatsType, filter } = this.state;
     return (
       <Drawer variant="permanent" style={{ width }} classes={{ paper: classes.root }}>

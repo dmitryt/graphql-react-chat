@@ -9,14 +9,12 @@ import ChatContent from '../containers/ChatContent';
 import ChatHeader from '../containers/ChatHeader';
 import CreateChatForm from '../containers/CreateChatForm';
 import JoinChatButton from '../containers/JoinChatButton';
+import EditProfileForm from '../containers/EditProfileForm';
+import MessageInput from '../containers/MessageInput';
 
-import EditProfileForm from './forms/EditProfileForm';
 import SideBar from '../components/SideBar';
-import MessageInput from '../components/MessageInput';
 import AddChatBtn from '../components/AddChatBtn';
 import { userShape, activeChatShape, notificationShape } from '../shapes';
-
-const MessageInputWithHandler = MessageInput;
 
 const sidebarWidth = 320;
 
@@ -145,7 +143,7 @@ export class ChatPage extends React.Component {
         </SideBar>
         <ChatContent user={user} disabled={disabled}>
           {isChatMember ? (
-            <MessageInputWithHandler disabled={disabled} />
+            <MessageInput disabled={disabled} chatId={get(activeChat, 'data._id')} />
           ) : (
             <JoinChatButton title="Join Chat" chatId={get(activeChat, 'data._id')} />
           )}
@@ -156,12 +154,7 @@ export class ChatPage extends React.Component {
           open={isChatDialogOpened}
           onClose={this.closeChatDialog}
         />
-        <EditProfileForm
-          user={user}
-          onSubmit={this.onEditProfile}
-          open={isProfileDialogOpened}
-          onClose={this.closeProfileDialog}
-        />
+        <EditProfileForm open={isProfileDialogOpened} onMutationSuccess={this.closeProfileDialog} />
       </div>
     );
   }

@@ -57,11 +57,12 @@ export class WelcomePage extends React.Component {
   };
 
   render() {
-    const { classes, isAuthenticated } = this.props;
+    const { classes, currentUser } = this.props;
     const { value } = this.state;
-    if (isAuthenticated) {
-      return <Redirect to="/chats" />;
-    }
+    const isAuthenticated = currentUser && currentUser.data;
+    // if (isAuthenticated) {
+    //   return <Redirect to="/chats" />;
+    // }
     return (
       <React.Fragment>
         <AppBar position="sticky">
@@ -103,7 +104,6 @@ export class WelcomePage extends React.Component {
 
 WelcomePage.propTypes = {
   classes: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
   notification: notificationShape,
 };
 

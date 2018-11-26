@@ -28,13 +28,13 @@ const styles = theme => ({
 });
 
 export const EditProfileForm = ({
-  classes, onSubmit, user, open, onClose,
+  classes, updateUserMutation, currentUser, open, onClose,
 }) => (
   <div>
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <Form
-        initialValues={user}
-        onSubmit={onSubmit}
+        initialValues={currentUser.data}
+        onSubmit={updateUserMutation}
         render={({ handleSubmit, submitting }) => (
           <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
             <DialogTitle className={classes.title}>Edit Profile</DialogTitle>
@@ -83,15 +83,13 @@ export const EditProfileForm = ({
 
 EditProfileForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: userShape,
+  currentUser: userShape,
   open: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func,
   onClose: PropTypes.func,
 };
 
 EditProfileForm.defaultProps = {
-  user: null,
-  onSubmit: () => {},
+  currentUser: null,
   onClose: () => {},
 };
 

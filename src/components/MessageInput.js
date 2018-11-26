@@ -8,9 +8,11 @@ export class MessageInput extends React.Component {
     value: '',
   };
   onKeyUp = ({ target, key }) => {
+    const { chatId } = this.props;
     const { value } = target;
     if (value && key === 'Enter') {
-      this.props.toggleMutation(value);
+      const input = { content: value, chatId };
+      this.props.addMessageMutation({ input });
       this.setState({ value: '' });
     }
   };
@@ -42,11 +44,11 @@ export class MessageInput extends React.Component {
 
 MessageInput.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  toggleMutation: PropTypes.func,
+  addMessageMutation: PropTypes.func,
 };
 
 MessageInput.defaultProps = {
-  toggleMutation: () => {},
+  addMessageMutation: () => {},
 };
 
 export default MessageInput;

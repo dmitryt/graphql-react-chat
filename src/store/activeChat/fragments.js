@@ -8,6 +8,7 @@ export const BASE_MESSAGE_FRAGMENT = gql`
     content
     createdAt
     chatId
+    isStatusMessage
     sender {
       _id
       username

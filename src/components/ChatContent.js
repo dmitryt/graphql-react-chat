@@ -38,7 +38,7 @@ function prepareChatMessages(activeChat, user) {
     return <InviteLabel />;
   }
   return activeChat.messages.map((item) => {
-    const Component = item.statusMessage ? UserAction : UserMessage;
+    const Component = item.isStatusMessage ? UserAction : UserMessage;
     return (
       <Component
         key={item._id}
