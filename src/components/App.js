@@ -8,7 +8,7 @@ export const App = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/(welcome)?" component={WelcomePage} />
-      <Route path="/chats/:chatId?" component={ChatPage} />
+      <PrivateRoute path="/chats/:chatId?" component={ChatPage} />
       <Redirect to="/" />
     </Switch>
   </BrowserRouter>
