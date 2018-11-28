@@ -1,53 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { Route, Redirect } from 'react-router-dom';
 
-import { actions } from '../reducers';
+import { withCurrentUser } from '../store/user';
+import withLoader from '../hocs/withLoader';
 
-class PrivateRoute extends React.Component {
-  componentDidMount() {
-    this.props.receiveAuth();
-  }
+const isAuthenticated = ({ data }) => !!data;
 
-  render() {
-    const { component: Component, isAuthenticated, ...rest } = this.props;
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          (isAuthenticated ? (
-            <Component {...props} />
-          ) : (
-            <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-          ))
-        }
-      />
-    );
-  }
-}
+const PrivateRoute = ({ path, component, currentUser }) =>
+  (isAuthenticated(currentUser) ? (
+    <Route path={path} component={component} />
+  ) : (
+    <Redirect to="/login" />
+  ));
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-const { receiveAuth } = actions;
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      receiveAuth,
-    },
-    dispatch,
-  );
-
-PrivateRoute.propTypes = {
-  component: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  receiveAuth: PropTypes.func.isRequired,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withCurrentUser,
+  withLoader(({ currentUser: { loading } }) => loading),
 )(PrivateRoute);

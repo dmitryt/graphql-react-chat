@@ -83,13 +83,11 @@ export const EditProfileForm = ({
 
 EditProfileForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentUser: userShape,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
 };
 
 EditProfileForm.defaultProps = {
-  currentUser: null,
   onClose: () => {},
 };
 

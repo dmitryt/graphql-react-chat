@@ -19,12 +19,3 @@ export const UPDATE_USER_MUTATION = gql`
   }
   ${BASE_USER_FRAGMENT}
 `;
-
-export const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION($username: String!, $password: String!) {
-    signup(username: $username, password: $password) {
-      ...BaseUser
-    }
-  }
-  ${BASE_USER_FRAGMENT}
-`;
