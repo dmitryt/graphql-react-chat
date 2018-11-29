@@ -43,17 +43,6 @@ export class ChatHeader extends React.Component {
     this.handleMenuClose();
   };
 
-  onDeleteChat = () => {
-    this.props.deleteChat();
-    this.props.redirectToChatsList();
-    this.handleMenuClose();
-  };
-
-  onLeaveChat = () => {
-    this.props.leaveChat();
-    this.handleMenuClose();
-  };
-
   handleMenuOpen = ({ currentTarget }) => {
     const key = currentTarget.getAttribute('data-id');
     this.setState({ [key]: currentTarget });
@@ -150,18 +139,12 @@ ChatHeader.propTypes = {
   width: PropTypes.string,
 
   logout: PropTypes.func,
-  deleteChat: PropTypes.func,
   openProfileDialog: PropTypes.func,
-  redirectToChatsList: PropTypes.func,
-  leaveChat: PropTypes.func,
 };
 
 ChatHeader.defaultProps = {
   width: '300px',
   logout: () => {},
-  deleteChat: () => {},
   openProfileDialog: () => {},
-  redirectToChatsList: () => {},
-  leaveChat: () => {},
 };
 export default withStyles(styles)(ChatHeader);

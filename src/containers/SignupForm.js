@@ -1,5 +1,5 @@
-import { withUser } from '../store/user';
+import { withAuth } from '../store/auth';
 
 import SignupForm from '../components/forms/SignupForm';
 
-export default withUser(SignupForm);
+export default withAuth(SignupForm);

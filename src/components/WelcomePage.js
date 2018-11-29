@@ -57,12 +57,8 @@ export class WelcomePage extends React.Component {
   };
 
   render() {
-    const { classes, currentUser } = this.props;
+    const { classes } = this.props;
     const { value } = this.state;
-    const isAuthenticated = currentUser && currentUser.data;
-    // if (isAuthenticated) {
-    //   return <Redirect to="/chats" />;
-    // }
     return (
       <React.Fragment>
         <AppBar position="sticky">
