@@ -7,11 +7,13 @@ import ApolloClient from 'apollo-boost';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { API_GQL_HOST, STORAGE_KEY_TOKEN } from './config';
+import clientState from './store/local';
 
 import './index.css';
 
 const client = new ApolloClient({
   uri: API_GQL_HOST,
+  clientState,
   request: async (operation) => {
     const token = localStorage.getItem(STORAGE_KEY_TOKEN);
     const headers = {

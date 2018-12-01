@@ -25,3 +25,18 @@ export const DELETE_CHAT_MUTATION = gql`
     deleteChat(id: $id)
   }
 `;
+
+export const CHAT_FILTERS_QUERY = gql`
+  query CHAT_FILTERS_QUERY {
+    chatFilters @client {
+      type
+      query
+    }
+  }
+`;
+
+export const CHAT_FILTERS_MUTATION = gql`
+  mutation CHAT_FILTERS_MUTATION($chatFilters: ChatFilters) {
+    setChatFilters(chatFilters: $chatFilters) @client
+  }
+`;

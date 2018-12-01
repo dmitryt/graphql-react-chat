@@ -45,3 +45,19 @@ export const leaveChatConfig = {
     },
   }),
 };
+
+export const chatsQueryConfig = {
+  options: ({
+    chatFilters: {
+      data: { type, query },
+    },
+  }) => {
+    debugger;
+    return {
+      variables: {
+        type,
+        query,
+      },
+    };
+  },
+};
