@@ -10,12 +10,17 @@ import {
   CREATE_CHAT_MUTATION,
   DELETE_CHAT_MUTATION,
 } from './queries';
-import { createChatConfig, deleteChatConfig, chatsQueryConfig } from './configs';
+import {
+  createChatConfig,
+  deleteChatConfig,
+  chatsQueryConfig,
+  chatFiltersMutationConfig,
+} from './configs';
 
 export const withChats = compose(
   withRouter,
+  prepareMutation(CHAT_FILTERS_MUTATION, 'chatFiltersMutation', chatFiltersMutationConfig),
   prepareQuery(CHAT_FILTERS_QUERY, 'chatFilters'),
-  prepareMutation(CHAT_FILTERS_MUTATION, 'chatFiltersMutation'),
   prepareQuery(CHATS_QUERY, 'chats', chatsQueryConfig),
   prepareMutation(CREATE_CHAT_MUTATION, 'createChatMutation', createChatConfig),
   prepareMutation(DELETE_CHAT_MUTATION, 'deleteChatMutation', deleteChatConfig),

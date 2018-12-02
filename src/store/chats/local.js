@@ -7,7 +7,7 @@ export const mutations = {
     const data = cache.readQuery({ query: CHAT_FILTERS_QUERY });
     const chatFilters = { ...data.chatFilters, ...variables.chatFilters };
     cache.writeData({ data: { chatFilters } });
-    return null;
+    return chatFilters;
   },
 };
 

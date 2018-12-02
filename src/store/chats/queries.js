@@ -3,8 +3,8 @@ import { gql } from 'apollo-boost';
 import { BASE_CHAT_FRAGMENT } from './fragments';
 
 export const CHATS_QUERY = gql`
-  query CHATS_QUERY($type: String, $filter: String) {
-    chats(type: $type, filter: $filter) {
+  query CHATS_QUERY($type: String, $query: String) {
+    chats(type: $type, query: $query) {
       ...BaseChat
     }
   }

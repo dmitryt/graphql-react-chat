@@ -51,13 +51,28 @@ export const chatsQueryConfig = {
     chatFilters: {
       data: { type, query },
     },
-  }) => {
-    debugger;
-    return {
-      variables: {
-        type,
-        query,
+  }) => ({
+    variables: {
+      type,
+      query,
+    },
+  }),
+};
+
+export const chatFiltersMutationConfig = {
+  options: {
+    refetchQueries: ({
+      data: {
+        setChatFilters: { type, query },
       },
-    };
+    }) => [
+      {
+        query: CHATS_QUERY,
+        variables: {
+          type,
+          query,
+        },
+      },
+    ],
   },
 };

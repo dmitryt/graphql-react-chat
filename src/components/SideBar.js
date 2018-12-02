@@ -5,8 +5,8 @@ import { withStyles } from 'material-ui/styles';
 
 import Divider from 'material-ui/Divider';
 
-import NavBar from './NavBar';
 import SearchInput from '../containers/SearchInput';
+import NavBar from '../containers/NavBar';
 import ChatsList from '../containers/ChatsList';
 
 const styles = () => ({
@@ -26,7 +26,7 @@ export class SideBar extends React.Component {
         <Divider />
         <ChatsList onSelect={this.onChatSelect} disabled={disabled} />
         {children}
-        <NavBar chatsType="all" onChange={this.onTypeChange} />
+        <NavBar />
       </Drawer>
     );
   }
