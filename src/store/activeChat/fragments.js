@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 import { BASE_CHAT_FRAGMENT } from '../chats/fragments';
 

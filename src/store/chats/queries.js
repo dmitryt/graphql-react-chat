@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 import { BASE_CHAT_FRAGMENT } from './fragments';
 
@@ -20,9 +20,24 @@ export const CREATE_CHAT_MUTATION = gql`
   ${BASE_CHAT_FRAGMENT}
 `;
 
+export const CREATE_CHAT_SUBSCRIPTION = gql`
+  subscription CREATE_CHAT_SUBSCRIPTION($type: String, $query: String) {
+    chatAdded(type: $type, query: $query) {
+      ...BaseChat
+    }
+  }
+  ${BASE_CHAT_FRAGMENT}
+`;
+
 export const DELETE_CHAT_MUTATION = gql`
   mutation DELETE_CHAT_MUTATION($id: ID!) {
     deleteChat(id: $id)
+  }
+`;
+
+export const DELETE_CHAT_SUBSCRIPTION = gql`
+  subscription DELETE_CHAT_SUBSCRIPTION($id: ID!) {
+    chatDeleted(id: $id)
   }
 `;
 
