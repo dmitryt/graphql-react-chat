@@ -58,3 +58,59 @@ export const prepareMutation = (MUTATION, name, config = {}) =>
     graphql(MUTATION, config),
     withMutationState(name),
   );
+
+// avoid multiple subscriptions, when component is initialized from different places
+// found only this way how to do that
+const isInited = {};
+const withSubscriptionState = ({
+  SUBSCRIPTION, queryName, sId, handler = a => a,
+}) => Component =>
+  // eslint-disable-next-line react/no-multi-comp
+  class extends React.Component {
+    // strange eslint bug
+    // eslint-disable-next-line
+    state = {
+      subscriptionParams: {},
+      unsubscribe: null,
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+      if (!nextProps[queryName].loading && !isInited[sId]) {
+        // Check for existing subscription
+        if (prevState.unsubscribe) {
+          // Only unsubscribe/update state if subscription variable has changed
+          if (prevState.subscriptionParams === nextProps.subscriptionParams) {
+            return null;
+          }
+          prevState.unsubscribe();
+        }
+        isInited[sId] = true;
+        return {
+          // Subscribe
+          unsubscribe: nextProps[queryName].subscribeToMore({
+            document: SUBSCRIPTION,
+            variables: nextProps.subscriptionParams,
+            updateQuery: (previousResult, { subscriptionData }) => ({
+              ...previousResult,
+              [queryName]: handler(previousResult[queryName], subscriptionData.data[sId]),
+            }),
+          }),
+          // Store subscriptionParam in state for next update
+          subscriptionParams: nextProps.subscriptionParams,
+        };
+      }
+
+      return null;
+    }
+    render() {
+      return <Component {...this.props} />;
+    }
+  };
+
+export const prepareSubscription = (SUBSCRIPTION, queryName, sId, handler) =>
+  withSubscriptionState({
+    SUBSCRIPTION,
+    queryName,
+    sId,
+    handler,
+  });

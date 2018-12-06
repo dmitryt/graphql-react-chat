@@ -7,6 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { withClientState } from 'apollo-link-state';
+import { setContext } from 'apollo-link-context';
 import { getMainDefinition } from 'apollo-utilities';
 
 import App from './components/App';
@@ -26,6 +27,16 @@ const httpLink = new HttpLink({
   uri: API_GQL_HOST,
 });
 
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
 const wsLink = new WebSocketLink({
   uri: API_WS_GQL_HOST,
   options: {
@@ -43,7 +54,7 @@ const remoteLink = split(
     return kind === 'OperationDefinition' && operation === 'subscription';
   },
   wsLink,
-  httpLink,
+  authLink.concat(httpLink),
 );
 
 const client = new ApolloClient({

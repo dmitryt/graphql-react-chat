@@ -21,8 +21,8 @@ export const CREATE_CHAT_MUTATION = gql`
 `;
 
 export const CREATE_CHAT_SUBSCRIPTION = gql`
-  subscription CREATE_CHAT_SUBSCRIPTION($type: String, $query: String) {
-    chatAdded(type: $type, query: $query) {
+  subscription CREATE_CHAT_SUBSCRIPTION {
+    chatAdded {
       ...BaseChat
     }
   }
@@ -36,8 +36,8 @@ export const DELETE_CHAT_MUTATION = gql`
 `;
 
 export const DELETE_CHAT_SUBSCRIPTION = gql`
-  subscription DELETE_CHAT_SUBSCRIPTION($id: ID!) {
-    chatDeleted(id: $id)
+  subscription DELETE_CHAT_SUBSCRIPTION {
+    chatDeleted
   }
 `;
 

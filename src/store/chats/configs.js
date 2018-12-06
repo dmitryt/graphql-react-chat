@@ -76,3 +76,11 @@ export const chatFiltersMutationConfig = {
     ],
   },
 };
+
+export const createChatSubscriptionHandler = (previousResult, subscriptionData) => [
+  ...previousResult,
+  subscriptionData,
+];
+
+export const removeChatSubscriptionHandler = (previousResult, removedChatId) =>
+  previousResult.filter(({ _id }) => _id !== removedChatId);
