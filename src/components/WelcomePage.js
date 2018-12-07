@@ -1,7 +1,5 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import NotificationSystem from 'react-notification-system';
 import { withStyles } from 'material-ui/styles';
 
 import AppBar from 'material-ui/AppBar';
@@ -12,7 +10,6 @@ import Typography from 'material-ui/Typography';
 
 import LoginForm from '../containers/LoginForm';
 import SignupForm from '../containers/SignupForm';
-import { notificationShape } from '../shapes';
 
 function TabContainer(props) {
   return (
@@ -45,13 +42,6 @@ export class WelcomePage extends React.Component {
     value: 0,
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.notification !== this.props.notification && this.props.notification) {
-      const { level, message } = this.props.notification;
-      this._notificationSystem.current.addNotification({ message, level });
-    }
-  }
-
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -60,7 +50,7 @@ export class WelcomePage extends React.Component {
     const { classes } = this.props;
     const { value } = this.state;
     return (
-      <React.Fragment>
+      <Fragment>
         <AppBar position="sticky">
           <Toolbar>
             <Typography variant="title" color="inherit" className={classes.flex}>
@@ -92,19 +82,13 @@ export class WelcomePage extends React.Component {
             </TabContainer>
           )}
         </Paper>
-        <NotificationSystem ref={this._notificationSystem} />
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
 WelcomePage.propTypes = {
   classes: PropTypes.object.isRequired,
-  notification: notificationShape,
-};
-
-WelcomePage.defaultProps = {
-  notification: null,
 };
 
 export default withStyles(styles, { withTheme: true })(WelcomePage);

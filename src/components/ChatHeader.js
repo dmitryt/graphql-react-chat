@@ -43,6 +43,22 @@ export class ChatHeader extends React.Component {
     this.handleMenuClose();
   };
 
+  onChatDelete = (notificationRef) => {
+    this.handleMenuClose();
+    notificationRef.addNotification({
+      message: 'You have deleted the chat successfully',
+      level: 'success',
+    });
+  };
+
+  onChatLeave = (notificationRef) => {
+    this.handleMenuClose();
+    notificationRef.addNotification({
+      message: 'You have left the chat successfully',
+      level: 'success',
+    });
+  };
+
   handleMenuOpen = ({ currentTarget }) => {
     const key = currentTarget.getAttribute('data-id');
     this.setState({ [key]: currentTarget });
@@ -95,13 +111,13 @@ export class ChatHeader extends React.Component {
                 <DeleteChatButton
                   title="Delete"
                   chatId={get(activeChat, 'data._id')}
-                  onMutationSuccess={this.handleMenuClose}
+                  onMutationSuccess={this.onChatDelete}
                 />
               ) : (
                 <LeaveChatButton
                   title="Leave"
                   chatId={get(activeChat, 'data._id')}
-                  onMutationSuccess={this.handleMenuClose}
+                  onMutationSuccess={this.onChatLeave}
                 />
               )}
             </Menu>

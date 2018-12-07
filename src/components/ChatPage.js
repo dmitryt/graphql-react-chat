@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NotificationSystem from 'react-notification-system';
 import get from 'lodash/get';
 
 import { withStyles } from 'material-ui/styles';
@@ -89,12 +88,19 @@ export class ChatPage extends React.Component {
     this.props.redirectToChat({ chatId });
   };
 
-  closeProfileDialog = () => {
-    this.setState({ isProfileDialogOpened: false });
+  onUserUpdate = (notificationRef) => {
+    notificationRef.addNotification({
+      message: 'Profile has been saved successfully',
+      level: 'success',
+    });
+    this.closeProfileDialog();
   };
 
-  openProfileDialog = () => {
-    this.setState({ isProfileDialogOpened: true });
+  onChatJoin = (notificationRef) => {
+    notificationRef.addNotification({
+      message: 'You have joined the chat successfully',
+      level: 'success',
+    });
   };
 
   closeChatDialog = () => {
@@ -103,6 +109,14 @@ export class ChatPage extends React.Component {
 
   openChatDialog = () => {
     this.setState({ isChatDialogOpened: true });
+  };
+
+  openProfileDialog = () => {
+    this.setState({ isProfileDialogOpened: true });
+  };
+
+  closeProfileDialog = () => {
+    this.setState({ isProfileDialogOpened: false });
   };
 
   render() {
@@ -145,16 +159,19 @@ export class ChatPage extends React.Component {
           {isChatMember ? (
             <MessageInput disabled={disabled} chatId={get(activeChat, 'data._id')} />
           ) : (
-            <JoinChatButton title="Join Chat" chatId={get(activeChat, 'data._id')} />
+            <JoinChatButton
+              title="Join Chat"
+              onMutationSuccess={this.onChatJoin}
+              chatId={get(activeChat, 'data._id')}
+            />
           )}
         </ChatContent>
-        <NotificationSystem ref={this._notificationSystem} />
         <CreateChatForm
           onMutationSuccess={this.closeChatDialog}
           open={isChatDialogOpened}
           onClose={this.closeChatDialog}
         />
-        <EditProfileForm open={isProfileDialogOpened} onMutationSuccess={this.closeProfileDialog} />
+        <EditProfileForm open={isProfileDialogOpened} onMutationSuccess={this.onUserUpdate} />
       </div>
     );
   }

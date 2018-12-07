@@ -34,3 +34,11 @@ export const addMessageConfig = {
     },
   },
 };
+
+export const addMessageSubscriptionHandler = (previousResult, { subscriptionData }) => ({
+  ...previousResult,
+  chat: {
+    ...previousResult.chat,
+    messages: [...previousResult.chat.messages, subscriptionData.data.messageAdded],
+  },
+});

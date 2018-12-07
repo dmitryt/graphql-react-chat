@@ -1,5 +1,8 @@
 import React from 'react';
+import { fromRenderProps } from 'recompose';
 import { graphql, compose } from 'react-apollo';
+
+import { NotificationContext } from '../context/notificationContext';
 
 export const prepareQuery = (QUERY, name, config = {}) =>
   graphql(QUERY, {
@@ -29,14 +32,14 @@ const withMutationState = handlerName => Component =>
       this._isMounted = false;
     }
     _mutate = (variables) => {
-      const { mutate, onMutationSuccess = () => {} } = this.props;
+      const { mutate, notificationRef, onMutationSuccess = () => {} } = this.props;
       this.setState({ loading: true });
       return mutate({ variables })
         .then(() => {
           if (this._isMounted) {
             this.setState({ error: null });
-            onMutationSuccess();
           }
+          onMutationSuccess(notificationRef.current);
         })
         .finally(() => {
           if (this._isMounted) {
@@ -45,8 +48,9 @@ const withMutationState = handlerName => Component =>
         });
     };
     render() {
+      const { notificationRef, ...rest } = this.props;
       const props = {
-        ...this.props,
+        ...rest,
         [handlerName]: this._mutate,
       };
       return <Component {...props} />;
@@ -56,6 +60,7 @@ const withMutationState = handlerName => Component =>
 export const prepareMutation = (MUTATION, name, config = {}) =>
   compose(
     graphql(MUTATION, config),
+    fromRenderProps(NotificationContext.Consumer, notificationRef => ({ notificationRef })),
     withMutationState(name),
   );
 
@@ -75,7 +80,11 @@ const withSubscriptionState = ({
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-      if (!nextProps[queryName].loading && !isInited[sId]) {
+      if (nextProps[queryName] && !nextProps[queryName].loading) {
+        // avoid multiple subscription
+        if (isInited[sId] && !prevState.unsubscribe) {
+          return null;
+        }
         // Check for existing subscription
         if (prevState.unsubscribe) {
           // Only unsubscribe/update state if subscription variable has changed
@@ -90,10 +99,7 @@ const withSubscriptionState = ({
           unsubscribe: nextProps[queryName].subscribeToMore({
             document: SUBSCRIPTION,
             variables: nextProps.subscriptionParams,
-            updateQuery: (previousResult, { subscriptionData }) => ({
-              ...previousResult,
-              [queryName]: handler(previousResult[queryName], subscriptionData.data[sId]),
-            }),
+            updateQuery: handler,
           }),
           // Store subscriptionParam in state for next update
           subscriptionParams: nextProps.subscriptionParams,

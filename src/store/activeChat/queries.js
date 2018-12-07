@@ -37,3 +37,12 @@ export const ADD_MESSAGE_MUTATION = gql`
   }
   ${BASE_MESSAGE_FRAGMENT}
 `;
+
+export const ADD_MESSAGE_SUBSCRIPTION = gql`
+  subscription ADD_MESSAGE_SUBSCRIPTION($id: ID!) {
+    messageAdded(id: $id) {
+      ...BaseMessage
+    }
+  }
+  ${BASE_MESSAGE_FRAGMENT}
+`;
