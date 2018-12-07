@@ -8,8 +8,6 @@ import UserMessage from './UserMessage';
 import UserAction from './UserAction';
 import InviteLabel from './InviteLabel';
 
-import { userShape } from '../shapes';
-
 const styles = theme => ({
   toolbar: theme.mixins.toolbar,
   bottomBox: {
@@ -94,12 +92,7 @@ export class ChatContent extends React.Component {
 
 ChatContent.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: userShape,
   children: PropTypes.object.isRequired,
-};
-
-ChatContent.defaultProps = {
-  user: null,
 };
 
 export default withStyles(styles)(ChatContent);

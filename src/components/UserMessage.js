@@ -9,7 +9,6 @@ import Paper from 'material-ui/Paper';
 
 import { titleInitials, getDisplayedName } from '../utils/helpers';
 import { distanceInWords } from '../utils/date';
-import { userShape } from '../shapes';
 
 const styles = theme => ({
   listItemText: {
@@ -67,15 +66,10 @@ export const UserMessage = ({
 
 UserMessage.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: userShape,
   color: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   isCreator: PropTypes.bool.isRequired,
-};
-
-UserMessage.defaultProps = {
-  user: null,
 };
 
 export default withStyles(styles)(UserMessage);

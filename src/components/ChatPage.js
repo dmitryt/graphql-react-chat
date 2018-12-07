@@ -13,7 +13,6 @@ import MessageInput from '../containers/MessageInput';
 
 import SideBar from '../components/SideBar';
 import AddChatBtn from '../components/AddChatBtn';
-import { userShape, activeChatShape, notificationShape } from '../shapes';
 
 const sidebarWidth = 320;
 
@@ -29,50 +28,10 @@ const styles = () => ({
 });
 
 export class ChatPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this._notificationSystem = React.createRef();
-  }
-
   state = {
     isChatDialogOpened: false,
     isProfileDialogOpened: false,
   };
-
-  componentDidMount() {
-    const { fetchAllChats, fetchMyChats, initWsConnection } = this.props;
-    initWsConnection();
-    fetchAllChats();
-    fetchMyChats();
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      setActiveChat, match, activeChat, mountChat, unmountChat,
-    } = this.props;
-    const getChatId = chat => chat && chat._id;
-    if (this.props.notification && prevProps.notification !== this.props.notification) {
-      const { level, message } = this.props.notification;
-      this._notificationSystem.current.addNotification({ message, level });
-    }
-    if (prevProps.match.params.chatId !== match.params.chatId && match.params.chatId) {
-      setActiveChat({ chatId: match.params.chatId });
-    }
-    const prevChatId = getChatId(prevProps.activeChat);
-    const currentChatId = getChatId(activeChat);
-    if (prevChatId !== currentChatId) {
-      if (prevChatId) {
-        unmountChat(prevChatId);
-      }
-      if (currentChatId) {
-        mountChat(currentChatId);
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.wsConnectionClose();
-  }
 
   onCreateChat = (data) => {
     this.closeChatDialog();
@@ -129,17 +88,7 @@ export class ChatPage extends React.Component {
 
   render() {
     const {
-      classes,
-      logout,
-      user,
-      myChats,
-      deleteChat,
-      joinChat,
-      leaveChat,
-      activeChat,
-      sendMessage,
-      redirectToChatsList,
-      // isConnected,
+      classes, logout, user, myChats, deleteChat, leaveChat, activeChat,
     } = this.props;
     const { isChatDialogOpened, isProfileDialogOpened } = this.state;
     const disabled = false;
@@ -152,7 +101,6 @@ export class ChatPage extends React.Component {
           disabled={disabled}
           deleteChat={deleteChat}
           leaveChat={leaveChat}
-          redirectToChatsList={redirectToChatsList}
           openProfileDialog={this.openProfileDialog}
         />
         <SideBar
@@ -187,51 +135,21 @@ export class ChatPage extends React.Component {
 
 ChatPage.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: userShape,
-  match: PropTypes.shape({
-    params: PropTypes.object.isRequired,
-  }).isRequired,
-  notification: notificationShape,
-  // activeChat: activeChatShape,
-  // isConnected: PropTypes.bool.isRequired,
-
   logout: PropTypes.func,
   createChat: PropTypes.func,
-  fetchAllChats: PropTypes.func,
-  fetchMyChats: PropTypes.func,
   redirectToChat: PropTypes.func,
-  redirectToChatsList: PropTypes.func,
-  joinChat: PropTypes.func,
   leaveChat: PropTypes.func,
   deleteChat: PropTypes.func,
-  mountChat: PropTypes.func,
-  unmountChat: PropTypes.func,
-  setActiveChat: PropTypes.func,
-  initWsConnection: PropTypes.func,
-  wsConnectionClose: PropTypes.func,
   updateUser: PropTypes.func,
-  sendMessage: PropTypes.func,
 };
 
 ChatPage.defaultProps = {
-  notification: null,
-  user: null,
   logout: () => {},
   createChat: () => {},
-  fetchAllChats: () => {},
-  fetchMyChats: () => {},
   redirectToChat: () => {},
-  redirectToChatsList: () => {},
-  joinChat: () => {},
   leaveChat: () => {},
   deleteChat: () => {},
-  mountChat: () => {},
-  unmountChat: () => {},
-  setActiveChat: () => {},
-  initWsConnection: () => {},
-  wsConnectionClose: () => {},
   updateUser: () => {},
-  sendMessage: () => {},
 };
 
 export default withStyles(styles)(ChatPage);

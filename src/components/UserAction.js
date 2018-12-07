@@ -5,7 +5,6 @@ import { withStyles } from 'material-ui/styles';
 import { ListItem, ListItemText } from 'material-ui/List';
 
 import { distanceInWords } from '../utils/date';
-import { userShape } from '../shapes';
 
 const styles = {
   username: {
@@ -40,14 +39,9 @@ export const UserAction = ({
 
 UserAction.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: userShape,
   color: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-};
-
-UserAction.defaultProps = {
-  user: null,
 };
 
 export default withStyles(styles)(UserAction);

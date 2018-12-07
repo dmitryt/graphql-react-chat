@@ -10,7 +10,6 @@ import Avatar from 'material-ui/Avatar';
 
 import { titleInitials } from '../utils/helpers';
 import { distanceInWords } from '../utils/date';
-import { activeChatShape } from '../shapes';
 
 const styles = theme => ({
   root: {

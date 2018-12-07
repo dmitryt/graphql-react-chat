@@ -6,7 +6,6 @@ import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { Form, Field } from 'react-final-form';
 
 import TextField from './TextField';
-import { userShape } from '../../shapes';
 
 const styles = theme => ({
   title: {
