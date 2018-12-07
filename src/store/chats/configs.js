@@ -1,4 +1,4 @@
-import { CHATS_QUERY } from './queries';
+import { CHATS_QUERY, CHAT_FILTERS_QUERY } from './queries';
 
 export const createChatConfig = {
   options: ({ history }) => ({
@@ -6,7 +6,8 @@ export const createChatConfig = {
       if (!createChat) {
         return false;
       }
-      const queryAttrs = { query: CHATS_QUERY, variables: { type: null, filter: null } };
+      const { chatFilters } = store.readQuery({ query: CHAT_FILTERS_QUERY });
+      const queryAttrs = { query: CHATS_QUERY, variables: chatFilters };
       const data = store.readQuery(queryAttrs);
       data.chats.push(createChat);
       store.writeQuery({ ...queryAttrs, data });

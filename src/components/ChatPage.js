@@ -103,6 +103,14 @@ export class ChatPage extends React.Component {
     });
   };
 
+  onChatCreate = (notificationRef) => {
+    notificationRef.addNotification({
+      message: 'Chat has been created successfully',
+      level: 'success',
+    });
+    this.closeChatDialog();
+  };
+
   closeChatDialog = () => {
     this.setState({ isChatDialogOpened: false });
   };
@@ -167,7 +175,7 @@ export class ChatPage extends React.Component {
           )}
         </ChatContent>
         <CreateChatForm
-          onMutationSuccess={this.closeChatDialog}
+          onMutationSuccess={this.onChatCreate}
           open={isChatDialogOpened}
           onClose={this.closeChatDialog}
         />
