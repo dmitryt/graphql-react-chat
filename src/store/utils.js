@@ -41,6 +41,15 @@ const withMutationState = handlerName => Component =>
           }
           onMutationSuccess(notificationRef.current);
         })
+        .catch((e) => {
+          const msg = (e.graphQLErrors || []).map(({ message }) => message).join('; ');
+          if (msg) {
+            notificationRef.current.addNotification({
+              message: msg,
+              level: 'error',
+            });
+          }
+        })
         .finally(() => {
           if (this._isMounted) {
             this.setState({ loading: false });

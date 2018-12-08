@@ -42,6 +42,14 @@ export class WelcomePage extends React.Component {
     value: 0,
   };
 
+  onUserCreate = (notificationRef) => {
+    notificationRef.addNotification({
+      message: 'User has been created successfully. Please login',
+      level: 'success',
+    });
+    this.handleChange(null, 0);
+  };
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -78,7 +86,7 @@ export class WelcomePage extends React.Component {
           )}
           {value === 1 && (
             <TabContainer>
-              <SignupForm />
+              <SignupForm onMutationSuccess={this.onUserCreate} />
             </TabContainer>
           )}
         </Paper>
