@@ -8,7 +8,6 @@ import ChatContent from '../containers/ChatContent';
 import ChatHeader from '../containers/ChatHeader';
 import CreateChatForm from '../containers/CreateChatForm';
 import JoinChatButton from '../containers/JoinChatButton';
-import EditProfileForm from '../containers/EditProfileForm';
 import MessageInput from '../containers/MessageInput';
 
 import SideBar from '../components/SideBar';
@@ -30,7 +29,6 @@ const styles = () => ({
 export class ChatPage extends React.Component {
   state = {
     isChatDialogOpened: false,
-    isProfileDialogOpened: false,
   };
 
   onCreateChat = (data) => {
@@ -38,21 +36,8 @@ export class ChatPage extends React.Component {
     this.props.createChat(data);
   };
 
-  onEditProfile = (data) => {
-    this.closeProfileDialog();
-    this.props.updateUser(data);
-  };
-
   onChatSelect = (chatId) => {
     this.props.redirectToChat({ chatId });
-  };
-
-  onUserUpdate = (notificationRef) => {
-    notificationRef.addNotification({
-      message: 'Profile has been saved successfully',
-      level: 'success',
-    });
-    this.closeProfileDialog();
   };
 
   onChatJoin = (notificationRef) => {
@@ -78,19 +63,11 @@ export class ChatPage extends React.Component {
     this.setState({ isChatDialogOpened: true });
   };
 
-  openProfileDialog = () => {
-    this.setState({ isProfileDialogOpened: true });
-  };
-
-  closeProfileDialog = () => {
-    this.setState({ isProfileDialogOpened: false });
-  };
-
   render() {
     const {
       classes, logout, user, myChats, deleteChat, leaveChat, activeChat,
     } = this.props;
-    const { isChatDialogOpened, isProfileDialogOpened } = this.state;
+    const { isChatDialogOpened } = this.state;
     const disabled = false;
     const isChatMember = get(activeChat, 'data.isChatMember');
     return (
@@ -101,7 +78,6 @@ export class ChatPage extends React.Component {
           disabled={disabled}
           deleteChat={deleteChat}
           leaveChat={leaveChat}
-          openProfileDialog={this.openProfileDialog}
         />
         <SideBar
           width={sidebarWidth}
@@ -127,7 +103,6 @@ export class ChatPage extends React.Component {
           open={isChatDialogOpened}
           onClose={this.closeChatDialog}
         />
-        <EditProfileForm open={isProfileDialogOpened} onMutationSuccess={this.onUserUpdate} />
       </div>
     );
   }
@@ -140,7 +115,6 @@ ChatPage.propTypes = {
   redirectToChat: PropTypes.func,
   leaveChat: PropTypes.func,
   deleteChat: PropTypes.func,
-  updateUser: PropTypes.func,
 };
 
 ChatPage.defaultProps = {
@@ -149,7 +123,6 @@ ChatPage.defaultProps = {
   redirectToChat: () => {},
   leaveChat: () => {},
   deleteChat: () => {},
-  updateUser: () => {},
 };
 
 export default withStyles(styles)(ChatPage);
