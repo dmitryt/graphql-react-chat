@@ -24,7 +24,7 @@ const stateLink = withClientState({
 });
 
 const httpLink = new HttpLink({
-  uri: API_GQL_HOST,
+  uri: `${API_GQL_HOST}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -38,7 +38,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: API_WS_GQL_HOST,
+  uri: `${API_WS_GQL_HOST}/graphql`,
   options: {
     reconnect: true,
     connectionParams: {

@@ -9,8 +9,8 @@ module.exports = {
   webpack(cfg, env) {
     console.log('ENV VARS', process.env);
     const config = rewireDefinePlugin(cfg, env, {
-      'process.env.REACT_API_GQL_HOST': JSON.stringify(process.env.REACT_API_GQL_HOST || 'http://localhost:3002/graphql'),
-      'process.env.REACT_API_WS_GQL_HOST': JSON.stringify(process.env.REACT_API_WS_GQL_HOST || 'ws://localhost:3002/graphql'),
+      'process.env.REACT_API_GQL_HOST': JSON.stringify(process.env.REACT_API_GQL_HOST || 'http://localhost:3002/'),
+      'process.env.REACT_API_WS_GQL_HOST': JSON.stringify(process.env.REACT_API_WS_GQL_HOST || 'ws://localhost:3002/'),
     });
     return compose(
       eslint,
