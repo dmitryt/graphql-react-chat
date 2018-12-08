@@ -1,2 +1,1 @@
-React/Redux based chat, using WebSocket API.
-This chat was created in scope of [Doge Codes](http://doge.codes/) React Course.
+GraphQL implementation of [React Chat](https://github.com/dmitryt/dogecodes-react-chat)
