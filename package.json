@@ -22,7 +22,7 @@
     "graphql-tag": "^2.10.0",
     "history": "^4.7.2",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "material-ui": "^1.0.0-beta.45",
     "per-env": "^1.0.2",
     "prop-types": "^15.6.1",
