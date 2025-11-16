@@ -37,7 +37,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
-    "react-scripts": "1.1.4",
+    "react-scripts": "5.0.1",
     "react-test-renderer": "^16.4.0",
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^4.19.1",
+    "eslint": "^9.39.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-flowtype": "^2.46.3",
@@ -74,8 +74,8 @@
     "eslint-plugin-react": "^7.9.1",
     "faker": "^4.1.0",
     "husky": "^0.14.3",
-    "lint-staged": "^7.1.3",
-    "prettier-eslint-cli": "^4.7.1",
+    "lint-staged": "^16.2.6",
+    "prettier-eslint-cli": "^8.0.1",
     "react-app-rewire-define-plugin": "^1.0.0",
     "react-app-rewired": "^1.5.2",
     "redux-saga-test-plan": "^3.7.0"
